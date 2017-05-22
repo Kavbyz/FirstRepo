@@ -5,12 +5,11 @@ using System.Web;
 
 namespace Store.Models
 {
-    public class Headings
+    public class Basket
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public virtual ICollection<Product> Products { get; set; }
-        public Headings()
+        public Basket()
         {
             Products = new List<Product>();
         }
