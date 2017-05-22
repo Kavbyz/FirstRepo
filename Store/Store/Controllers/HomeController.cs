@@ -27,5 +27,12 @@ namespace Store.Controllers
 
             return View();
         }
+
+        public ActionResult PaymentAndDelivery()
+        {
+            ViewBag.Message = "Payment and Delivery information";
+
+            return View();
+        }
     }
 }
