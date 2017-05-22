@@ -16,6 +16,7 @@ namespace Store.Models
         public virtual Order Order { get; set; }
         public virtual ICollection<Images> Images { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public Basket Basket { get; set; }
 
         public Product()
         {
