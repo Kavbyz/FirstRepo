@@ -15,8 +15,7 @@ namespace Store.Models
         public virtual ICollection<Headings> Headings { get; set; }
         public virtual Order Order { get; set; }
         public virtual ICollection<Images> Images { get; set; }
-
-        //List image        
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public Product()
         {

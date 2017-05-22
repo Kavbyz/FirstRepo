@@ -11,5 +11,6 @@ namespace Store.Models
         public User User { get; set; }
         public string Comment_Text { get; set; }
         public DateTime Date { get; set; }
+        public Product Product { get; set; }
     }
 }
