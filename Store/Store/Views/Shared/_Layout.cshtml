@@ -30,6 +30,16 @@
             </div>
         </div>
     </div>
+
+    @*@foreach (var item in ViewBag.HeadingsList)
+    {
+        <tr>
+            <td>
+                <li>@Html.ActionLink(item.Name, "PaymentAndDelivery", "Home")</li>
+            </td>
+        </tr>
+    }*@
+
     <div class="container body-content">
         @RenderBody()
         <hr />
