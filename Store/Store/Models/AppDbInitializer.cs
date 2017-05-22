@@ -12,7 +12,10 @@ namespace Store.Models
     {
         protected override void Seed(ApplicationDbContext context)
         {
-
+            Headings heading = new Headings();
+            heading.Name = "First";
+            context.Headings.Add(heading);
+            context.SaveChanges();
             base.Seed(context);
         }
     }

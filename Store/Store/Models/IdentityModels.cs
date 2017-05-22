@@ -14,6 +14,13 @@ namespace Store.Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
 
+        public ApplicationUser()
+        {
+            Comments = new List<Comment>();
+            Orders = new List<Order>();
+        }
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType
