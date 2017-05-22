@@ -8,6 +8,7 @@ namespace Store.Models
     public class Headings
     {
         public int Id { get; set; }
+        public int Idd { get; set; }
 
     }
 }
