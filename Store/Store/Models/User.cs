@@ -11,6 +11,7 @@ namespace Store.Models
         public string FIO { get; set; }
         public string Email { get; set; }
         public int Telephone { get; set; }
+
         public virtual ICollection<Order> Orders { get; set; }
     }
 }
