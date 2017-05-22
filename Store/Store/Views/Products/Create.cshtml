@@ -47,6 +47,40 @@
             </div>
         </div>
 
+        <input type="file" name="upload" id="uploadFile"/>
+        <button id="submit" class="btn btn-success">Загрузить</button>
+        <script>
+                $(document).ready(function () {
+                    $('#submit').click(function (e) {
+                        e.preventDefault();
+                        var files = document.getElementById('uploadFile').files;
+                        if (files.length > 0) {
+                            // Конструктор FormData() создает HTML-форму.
+                            var data = new FormData();
+                            for (var i = 0; i < files.length; i++) {
+                                // Метод append() из интерфейса FormData добавляет новое значение в существующий ключ внутри объекта FormData,
+                                // или создает ключ, в случае если он отсутствует.
+                                data.append("file" + i, files[i]);
+                            }
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("Upload", "Manage")',
+                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                                data: data,
+                                success: function (result) {
+                                    alert(result);
+                                    document.location.reload();
+                                },
+                                error: function (xhr, status, p3) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        }
+                    });
+                });
+        </script>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

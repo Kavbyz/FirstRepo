@@ -15,6 +15,27 @@ namespace Store.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [HttpPost]
+        public JsonResult Upload()
+        {
+            foreach (string file in Request.Files)
+            {
+                var upload = Request.Files[file];
+                if (upload != null)
+                {
+                    // получаем имя файла
+                    string fileName = System.IO.Path.GetFileName(upload.FileName);
+                    fileName = Guid.NewGuid().ToString() + fileName;
+
+
+
+                    // сохраняем файл в папку Files в проекте
+                    upload.SaveAs(Server.MapPath("~/Images/" + fileName));
+                }
+            }
+            return Json("Загрузка прошла успешно!");
+        }
+
         // GET: Products
         public async Task<ActionResult> Index()
         {
