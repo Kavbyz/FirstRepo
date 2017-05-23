@@ -18,22 +18,23 @@ namespace Store.Controllers
         [HttpPost]
         public JsonResult Upload()
         {
+            List<string> path = new List<string>();
             foreach (string file in Request.Files)
-            {
+            {                
                 var upload = Request.Files[file];
                 if (upload != null)
                 {
                     // получаем имя файла
                     string fileName = System.IO.Path.GetFileName(upload.FileName);
-                    fileName = Guid.NewGuid().ToString() + fileName;
-
-
+                    fileName = Guid.NewGuid().ToString() + fileName;                    
 
                     // сохраняем файл в папку Files в проекте
                     upload.SaveAs(Server.MapPath("~/Images/" + fileName));
+
+                    path.Add("/Images/" + fileName);
                 }
             }
-            return Json("Загрузка прошла успешно!");
+            return Json(path);
         }
 
         // GET: Products
@@ -68,12 +69,23 @@ namespace Store.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img)
         {
             if (ModelState.IsValid)
-            {
+            {                           
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
+                if (Img != null)
+                {
+                    foreach (var item in Img)
+                    {
+                        Images img = new Images();
+                        img.Path = item;
+                        img.Product = product;
+                        db.Images.Add(img);
+                    }
+                    await db.SaveChangesAsync();
+                }
                 return RedirectToAction("Index");
             }
 
