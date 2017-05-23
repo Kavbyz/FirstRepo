@@ -48,16 +48,46 @@
             </div>
         </div>
 
+        @*@Html.DropDownList("Heading", ViewBag.Headings as SelectList);*@
+
         <input type="file" name="upload" id="uploadFile" multiple/>
         <button id="submit" class="btn btn-success">Загрузить</button>
         <script>
-            $(document).ready(function () {                
-                    $('#submit').click(function (e) {
+            $(document).ready(function () {
+                $('#submit').click(function (e) {
                         e.preventDefault();
                         var files = document.getElementById('uploadFile').files;
+                        var arrimg = document.getElementsByClassName("inputImg");
+                        if (arrimg.length > 0)
+                        {
+                            var data = new FormData();
+                            data.append("imglenght", arrimg.length);
+                            for (var i = 0; i < arrimg.length;i++)
+                            {
+                                data.append("img"+i, arrimg[i].value);                                
+                            }
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("DeleteImageOnCreate", "Products")',
+                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                                data: data,
+                                success: function (result) {
+                                    var myNode = document.getElementById("forImage");
+                                        while (myNode.firstChild) {
+                                            myNode.removeChild(myNode.firstChild);
+                                        }
+                                },
+                                error: function (xhr, status, p3) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        }
+
                         if (files.length > 0) {
                             // Конструктор FormData() создает HTML-форму.
                             var data = new FormData();
+
                             for (var i = 0; i < files.length; i++) {
                                 // Метод append() из интерфейса FormData добавляет новое значение в существующий ключ внутри объекта FormData,
                                 // или создает ключ, в случае если он отсутствует.
@@ -73,11 +103,19 @@
                                 success: function (result) {
                                     var str = result.toString();
                                     var arr = str.split(',');
-                                    for (var i = 0; i < arr.length; i++)
-                                    {                                        
+                                    for (var i = 0; i < arr.length; i++) {
+                                        //var myNode = document.getElementById("forImage");
+                                        //while (myNode.firstChild) {
+                                        //    myNode.removeChild(myNode.firstChild);
+                                        //}
+                                        //if (document.getElementById("forImage").firstChild)
+                                        //{
+                                        //    document.getElementById("forImage").innerHTML = '';
+                                        //}
                                         var img = document.createElement('img');
                                         img.src = arr[i];
                                         var input = document.createElement('input');
+                                        input.className = "inputImg";
                                         input.name = "Img";
                                         input.value = arr[i];
                                         input.hidden = "hidden";
@@ -90,8 +128,8 @@
                                 }
                             });
                         }
-                    });
                 });
+            });
         </script>
        
         <div id="forImage">

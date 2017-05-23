@@ -37,6 +37,17 @@ namespace Store.Controllers
             return Json(path);
         }
 
+        [HttpPost]
+        public JsonResult DeleteImageOnCreate()
+        {
+            for(int i=0; i<Int32.Parse(Request.Form.GetValues("imglenght").FirstOrDefault());i++)
+            {
+                String path = Server.MapPath("~"+ Request.Form.GetValues("img"+i).FirstOrDefault().ToString());
+                System.IO.File.Delete(path);
+            }
+            return Json("Success");
+        }
+
         // GET: Products
         public async Task<ActionResult> Index()
         {
@@ -61,6 +72,12 @@ namespace Store.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
+            List<string> HeadingsName = new List<string>();
+            foreach(var item in db.Headings.ToList())
+            {
+                HeadingsName.Add(item.Name);
+            }
+            ViewBag.Headings = new SelectList(HeadingsName);
             return View();
         }
 
@@ -69,10 +86,10 @@ namespace Store.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img, String Heading)
         {
             if (ModelState.IsValid)
-            {                           
+            {                   
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 if (Img != null)
