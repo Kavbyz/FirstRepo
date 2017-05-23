@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "Create";
 }
-
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 <h2>Create</h2>
 
 
@@ -47,10 +48,10 @@
             </div>
         </div>
 
-        <input type="file" name="upload" id="uploadFile"/>
+        <input type="file" name="upload" id="uploadFile" multiple/>
         <button id="submit" class="btn btn-success">Загрузить</button>
         <script>
-                $(document).ready(function () {
+            $(document).ready(function () {                
                     $('#submit').click(function (e) {
                         e.preventDefault();
                         var files = document.getElementById('uploadFile').files;
@@ -64,13 +65,24 @@
                             }
                             $.ajax({
                                 type: "POST",
-                                url: '@Url.Action("Upload", "Manage")',
+                                url: '@Url.Action("Upload", "Products")',
                                 contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
                                 processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
                                 data: data,
                                 success: function (result) {
-                                    alert(result);
-                                    document.location.reload();
+                                    var str = result.toString();
+                                    var arr = str.split(',');
+                                    for (var i = 0; i < arr.length; i++)
+                                    {                                        
+                                        var img = document.createElement('img');
+                                        img.src = arr[i];
+                                        var input = document.createElement('input');
+                                        input.name = "Img";
+                                        input.value = arr[i];
+                                        input.hidden = "hidden";
+                                        document.getElementById("forImage").appendChild(img);
+                                        document.getElementById("forImage").appendChild(input);
+                                    }
                                 },
                                 error: function (xhr, status, p3) {
                                     alert(xhr.responseText);
@@ -80,7 +92,10 @@
                     });
                 });
         </script>
+       
+        <div id="forImage">
 
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
