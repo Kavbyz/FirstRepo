@@ -16,6 +16,7 @@ namespace Store.Models
             heading.Name = "First";
             context.Headings.Add(heading);
             context.SaveChanges();
+            context.SaveChanges();
             base.Seed(context);
         }
     }
