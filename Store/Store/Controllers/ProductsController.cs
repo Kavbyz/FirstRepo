@@ -86,12 +86,21 @@ namespace Store.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img, String Heading)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img, List<string> Heading)
         {
             if (ModelState.IsValid)
-            {                   
+            {
+                if (Heading != null)
+                {
+                    foreach (var item in Heading)
+                    {
+                        Headings Headings = db.Headings.ToList().Where(a => a.Name == item).FirstOrDefault();
+                        product.Headings.Add(Headings);
+                    }
+                    await db.SaveChangesAsync();
+                }
                 db.Products.Add(product);
-                await db.SaveChangesAsync();
+                await db.SaveChangesAsync();                
                 if (Img != null)
                 {
                     foreach (var item in Img)
@@ -103,7 +112,7 @@ namespace Store.Controllers
                     }
                     await db.SaveChangesAsync();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Headings", null);
             }
 
             return View(product);
