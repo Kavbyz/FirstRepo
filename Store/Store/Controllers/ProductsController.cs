@@ -51,6 +51,7 @@ namespace Store.Controllers
         // GET: Products
         public async Task<ActionResult> Index()
         {
+            ViewBag.HeadingsList = db.Headings.ToList();
             return View(await db.Products.ToListAsync());
         }
 
@@ -112,7 +113,7 @@ namespace Store.Controllers
                     }
                     await db.SaveChangesAsync();
                 }
-                return RedirectToAction("Index", "Headings", null);
+                return RedirectToAction("Index");
             }
 
             return View(product);
