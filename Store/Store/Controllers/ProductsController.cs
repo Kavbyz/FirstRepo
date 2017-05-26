@@ -76,8 +76,9 @@ namespace Store.Controllers
             List<string> HeadingsName = new List<string>();
             foreach(var item in db.Headings.ToList())
             {
-                HeadingsName.Add(item.Name);
+                HeadingsName.Add(item.Name);                
             }
+            ViewBag.HeadingsList = HeadingsName;
             ViewBag.Headings = new SelectList(HeadingsName);
             return View();
         }
@@ -130,7 +131,7 @@ namespace Store.Controllers
             if (product == null)
             {
                 return HttpNotFound();
-            }
+            }            
             return View(product);
         }
 

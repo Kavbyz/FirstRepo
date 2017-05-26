@@ -48,16 +48,48 @@
             </div>
         </div>
 
-        @Html.DropDownList("Heading", ViewBag.Headings as SelectList);
+        <div id="forHeading">
+            @Html.DropDownList("Heading", ViewBag.Headings as SelectList)
+            <br />
+        </div>
+        <button id="AddHeadings">Добавить Рубрику</button>
+        <br />
+
+        <script>
+            $("#AddHeadings").click(function () {
+                var select = document.createElement("select");
+                select.name = "Heading";
+                @*var lenght = ViewBag.CountElem;
+                var arrHeadings = @ViewBag.HeadingsArray;*@
+                @foreach (var item in ViewBag.HeadingsList)
+                {
+                    <text>
+                    var option = document.createElement("option");
+                    option.innerText = '@item.ToString()';
+                    select.appendChild(option);
+                </text>
+                }
+                //for (var i = 0; i < lenght; i++)
+                //{
+                //    var option = document.createElement("option");
+                //    option.value = arrHeadings[i];
+                //    select.appendChild(option);
+                //}
+                    document.getElementById("forHeading").appendChild(select);
+                    document.getElementById("forHeading").appendChild(document.createElement("br"));
+            });
+        </script>
 
         <input type="file" name="upload" id="uploadFile" multiple/>
         <button id="submit" class="btn btn-success">Загрузить</button>
         <script>
             $(document).ready(function () {
+                var count = 0;
                 $('#submit').click(function (e) {
                         e.preventDefault();
                         var files = document.getElementById('uploadFile').files;
-                        var arrimg = document.getElementsByClassName("inputImg");
+
+                        @*var arrimg = document.getElementsByClassName("inputImg");
                         if (arrimg.length > 0)
                         {
                             var data = new FormData();
@@ -82,7 +114,7 @@
                                     alert(xhr.responseText);
                                 }
                             });
-                        }
+                        }*@
 
                         if (files.length > 0) {
                             // Конструктор FormData() создает HTML-форму.
@@ -104,23 +136,29 @@
                                     var str = result.toString();
                                     var arr = str.split(',');
                                     for (var i = 0; i < arr.length; i++) {
-                                        //var myNode = document.getElementById("forImage");
-                                        //while (myNode.firstChild) {
-                                        //    myNode.removeChild(myNode.firstChild);
-                                        //}
-                                        //if (document.getElementById("forImage").firstChild)
-                                        //{
-                                        //    document.getElementById("forImage").innerHTML = '';
-                                        //}
+                                        count++;
                                         var img = document.createElement('img');
                                         img.src = arr[i];
+                                        img.name = "Image";                                        
                                         var input = document.createElement('input');
                                         input.className = "inputImg";
                                         input.name = "Img";
                                         input.value = arr[i];
                                         input.hidden = "hidden";
-                                        document.getElementById("forImage").appendChild(img);
-                                        document.getElementById("forImage").appendChild(input);
+                                        input.id = "input" + count;
+                                        var checkbox = document.createElement("input");
+                                        checkbox.id = count;
+                                        checkbox.className="checkboxImg"
+                                        checkbox.type = "checkbox";
+                                        checkbox.name = "selectImg";       
+                                        var div = document.createElement('div');
+                                        div.id = "div" + count;
+                                        div.appendChild(document.createElement("br"));
+                                        div.appendChild(img);
+                                        div.appendChild(document.createElement("br"));
+                                        div.appendChild(checkbox);
+                                        div.appendChild(input);
+                                        document.getElementById("forImage").appendChild(div);
                                     }
                                 },
                                 error: function (xhr, status, p3) {
@@ -128,13 +166,64 @@
                                 }
                             });
                         }
+
                 });
             });
         </script>
        
         <div id="forImage">
 
+            <button id="Del">Удалить</button>
         </div>
+        <script>
+            $("#Del").click(function () {
+                var arrimgC = document.getElementsByClassName("checkboxImg");
+
+                alert(arrimgC.length);
+                if (arrimgC.length > 0)
+                        {
+                    var data = new FormData();
+                    var arrimg = [];
+                    var idDel = [];
+
+                    for (var i = 0; i < arrimgC.length; i++)
+                    {
+                        if ($(arrimgC[i]).prop(("checked")) == true) {
+                            arrimg.push(document.getElementById("input" + arrimgC[i].id));
+                            idDel.push(arrimgC[i].id);
+                            //alert(arrimgC[i].id);                            
+                        }
+                    }
+                    alert(arrimg.length);                    
+                    if (arrimg.length > 0)
+                    {
+                        data.append("imglenght", arrimg.length);
+                            for (var i = 0; i < arrimg.length;i++)
+                            {
+                                data.append("img"+i, arrimg[i].value);
+                        }                            
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("DeleteImageOnCreate", "Products")',
+                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                                data: data,
+                                success: function (result) {     
+                                    if (idDel.length > 0) {
+                                        for (var i = 0; i < idDel.length; i++) {
+                                            document.getElementById("forImage").removeChild(document.getElementById("div" + idDel[i].toString()));
+                                        }
+                                    }
+                                    alert("Фотографии удалены");
+                                },
+                                error: function (xhr, status, p3) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        }
+                    }
+            });
+        </script>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
