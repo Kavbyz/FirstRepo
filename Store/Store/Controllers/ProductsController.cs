@@ -131,7 +131,14 @@ namespace Store.Controllers
             if (product == null)
             {
                 return HttpNotFound();
-            }            
+            }
+            List<string> HeadingsName = new List<string>();
+            foreach (var item in db.Headings.ToList())
+            {
+                HeadingsName.Add(item.Name);
+            }
+            ViewBag.HeadingsList = HeadingsName;
+            ViewBag.Headings = new SelectList(HeadingsName);
             return View(product);
         }
 
@@ -140,10 +147,30 @@ namespace Store.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Count,Price,Description")] Product product)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img, List<string> Heading)
         {
             if (ModelState.IsValid)
             {
+                if (Heading != null)
+                {
+                    foreach (var item in Heading)
+                    {
+                        Headings Headings = db.Headings.ToList().Where(a => a.Name == item).FirstOrDefault();
+                        product.Headings.Add(Headings);
+                    }
+                    await db.SaveChangesAsync();
+                }
+                if (Img != null)
+                {
+                    foreach (var item in Img)
+                    {
+                        Images img = new Images();
+                        img.Path = item;
+                        img.Product = product;
+                        db.Images.Add(img);
+                    }
+                    await db.SaveChangesAsync();
+                }
                 db.Entry(product).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

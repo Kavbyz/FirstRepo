@@ -52,33 +52,8 @@
             @Html.DropDownList("Heading", ViewBag.Headings as SelectList)
             <br />
         </div>
-        <button id="AddHeadings">Добавить Рубрику</button>
+        <input type="button" id="AddHeadings" value="Добавить Рубрику"/>
         <br />
-
-        <script>
-            $("#AddHeadings").click(function () {
-                var select = document.createElement("select");
-                select.name = "Heading";
-                @*var lenght = ViewBag.CountElem;
-                var arrHeadings = @ViewBag.HeadingsArray;*@
-                @foreach (var item in ViewBag.HeadingsList)
-                {
-                    <text>
-                    var option = document.createElement("option");
-                    option.innerText = '@item.ToString()';
-                    select.appendChild(option);
-                </text>
-                }
-                //for (var i = 0; i < lenght; i++)
-                //{
-                //    var option = document.createElement("option");
-                //    option.value = arrHeadings[i];
-                //    select.appendChild(option);
-                //}
-                    document.getElementById("forHeading").appendChild(select);
-                    document.getElementById("forHeading").appendChild(document.createElement("br"));
-            });
-        </script>
 
         <input type="file" name="upload" id="uploadFile" multiple/>
         <button id="submit" class="btn btn-success">Загрузить</button>
@@ -96,7 +71,7 @@
                             data.append("imglenght", arrimg.length);
                             for (var i = 0; i < arrimg.length;i++)
                             {
-                                data.append("img"+i, arrimg[i].value);                                
+                                data.append("img"+i, arrimg[i].value);
                             }
                             $.ajax({
                                 type: "POST",
@@ -139,7 +114,7 @@
                                         count++;
                                         var img = document.createElement('img');
                                         img.src = arr[i];
-                                        img.name = "Image";                                        
+                                        img.name = "Image";
                                         var input = document.createElement('input');
                                         input.className = "inputImg";
                                         input.name = "Img";
@@ -150,7 +125,7 @@
                                         checkbox.id = count;
                                         checkbox.className="checkboxImg"
                                         checkbox.type = "checkbox";
-                                        checkbox.name = "selectImg";       
+                                        checkbox.name = "selectImg";
                                         var div = document.createElement('div');
                                         div.id = "div" + count;
                                         div.appendChild(document.createElement("br"));
@@ -168,6 +143,21 @@
                         }
 
                 });
+                $("#AddHeadings").click(function () {
+
+                var select = document.createElement("select");
+                select.name = "Heading";
+                @foreach (var item in ViewBag.HeadingsList)
+                {
+                    <text>
+                    var option = document.createElement("option");
+                    option.innerText = '@item.ToString()';
+                    select.appendChild(option);
+                </text>
+                }
+                    document.getElementById("forHeading").appendChild(select);
+                    document.getElementById("forHeading").appendChild(document.createElement("br"));
+            });
             });
         </script>
        

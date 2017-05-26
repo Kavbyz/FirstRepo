@@ -4,6 +4,12 @@
     ViewBag.Title = "Edit";
 }
 
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
 <h2>Edit</h2>
 
 
@@ -49,7 +55,211 @@
             </div>
         </div>
 
-        
+        <div id="forHeading">
+            @Html.DropDownList("Heading", ViewBag.Headings as SelectList)
+            <br />
+        </div>
+        <button id="AddHeadings">Добавить Рубрику</button>
+        <br />
+
+        <script>
+            $("#AddHeadings").click(function () {
+                e.preventDefault();
+                var select = document.createElement("select");
+                select.name = "Heading";
+                @*var lenght = ViewBag.CountElem;
+                var arrHeadings = @ViewBag.HeadingsArray;*@
+                @foreach (var item in ViewBag.HeadingsList)
+                {
+                    <text>
+                    var option = document.createElement("option");
+                    option.innerText = '@item.ToString()';
+                    select.appendChild(option);
+                </text>
+                }
+                //for (var i = 0; i < lenght; i++)
+                //{
+                //    var option = document.createElement("option");
+                //    option.value = arrHeadings[i];
+                //    select.appendChild(option);
+                //}
+                    document.getElementById("forHeading").appendChild(select);
+                    document.getElementById("forHeading").appendChild(document.createElement("br"));
+            });
+        </script>
+
+        <input type="file" name="upload" id="uploadFile" multiple />
+        <button id="submit" class="btn btn-success">Загрузить</button>
+        <script>
+            $(document).ready(function () {
+                var count = 0;
+                @foreach(var item in Model.Images)
+                {
+                    <text>
+                count++;
+                var img = document.createElement('img');
+                img.src = '@item';
+                img.name = "Image";
+                var input = document.createElement('input');
+                input.className = "inputImg";
+                input.name = "Img";
+                input.value = '@item';
+                input.hidden = "hidden";
+                input.id = "input" + count;
+                var checkbox = document.createElement("input");
+                checkbox.id = count;
+                checkbox.className = "checkboxImg"
+                checkbox.type = "checkbox";
+                checkbox.name = "selectImg";
+                var div = document.createElement('div');
+                div.id = "div" + count;
+                div.appendChild(document.createElement("br"));
+                div.appendChild(img);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(checkbox);
+                div.appendChild(input);
+                document.getElementById("forImage").appendChild(div);
+            </text>
+                }
+                $('#submit').click(function (e) {
+                        e.preventDefault();
+                        var files = document.getElementById('uploadFile').files;
+
+                        @*var arrimg = document.getElementsByClassName("inputImg");
+                        if (arrimg.length > 0)
+                        {
+                            var data = new FormData();
+                            data.append("imglenght", arrimg.length);
+                            for (var i = 0; i < arrimg.length;i++)
+                            {
+                                data.append("img"+i, arrimg[i].value);
+                            }
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("DeleteImageOnCreate", "Products")',
+                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                                data: data,
+                                success: function (result) {
+                                    var myNode = document.getElementById("forImage");
+                                        while (myNode.firstChild) {
+                                            myNode.removeChild(myNode.firstChild);
+                                        }
+                                },
+                                error: function (xhr, status, p3) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        }*@
+
+                        if (files.length > 0) {
+                            // Конструктор FormData() создает HTML-форму.
+                            var data = new FormData();
+
+                            for (var i = 0; i < files.length; i++) {
+                                // Метод append() из интерфейса FormData добавляет новое значение в существующий ключ внутри объекта FormData,
+                                // или создает ключ, в случае если он отсутствует.
+                                data.append("file" + i, files[i]);
+
+                            }
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("Upload", "Products")',
+                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                                data: data,
+                                success: function (result) {
+                                    var str = result.toString();
+                                    var arr = str.split(',');
+                                    for (var i = 0; i < arr.length; i++) {
+                                        count++;
+                                        var img = document.createElement('img');
+                                        img.src = arr[i];
+                                        img.name = "Image";
+                                        var input = document.createElement('input');
+                                        input.className = "inputImg";
+                                        input.name = "Img";
+                                        input.value = arr[i];
+                                        input.hidden = "hidden";
+                                        input.id = "input" + count;
+                                        var checkbox = document.createElement("input");
+                                        checkbox.id = count;
+                                        checkbox.className="checkboxImg"
+                                        checkbox.type = "checkbox";
+                                        checkbox.name = "selectImg";
+                                        var div = document.createElement('div');
+                                        div.id = "div" + count;
+                                        div.appendChild(document.createElement("br"));
+                                        div.appendChild(img);
+                                        div.appendChild(document.createElement("br"));
+                                        div.appendChild(checkbox);
+                                        div.appendChild(input);
+                                        document.getElementById("forImage").appendChild(div);
+                                    }
+                                },
+                                error: function (xhr, status, p3) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        }
+
+                });
+            });
+        </script>
+
+        <div id="forImage">
+
+            <button id="Del">Удалить</button>
+        </div>
+        <script>
+            $("#Del").click(function () {
+                var arrimgC = document.getElementsByClassName("checkboxImg");
+
+                alert(arrimgC.length);
+                if (arrimgC.length > 0)
+                        {
+                    var data = new FormData();
+                    var arrimg = [];
+                    var idDel = [];
+
+                    for (var i = 0; i < arrimgC.length; i++)
+                    {
+                        if ($(arrimgC[i]).prop(("checked")) == true) {
+                            arrimg.push(document.getElementById("input" + arrimgC[i].id));
+                            idDel.push(arrimgC[i].id);
+                            //alert(arrimgC[i].id);
+                        }
+                    }
+                    alert(arrimg.length);
+                    if (arrimg.length > 0)
+                    {
+                        data.append("imglenght", arrimg.length);
+                            for (var i = 0; i < arrimg.length;i++)
+                            {
+                                data.append("img"+i, arrimg[i].value);
+                        }
+                            $.ajax({
+                                type: "POST",
+                                url: '@Url.Action("DeleteImageOnCreate", "Products")',
+                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                                data: data,
+                                success: function (result) {
+                                    if (idDel.length > 0) {
+                                        for (var i = 0; i < idDel.length; i++) {
+                                            document.getElementById("forImage").removeChild(document.getElementById("div" + idDel[i].toString()));
+                                        }
+                                    }
+                                    alert("Фотографии удалены");
+                                },
+                                error: function (xhr, status, p3) {
+                                    alert(xhr.responseText);
+                                }
+                            });
+                        }
+                    }
+            });
+        </script>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
