@@ -227,6 +227,17 @@ namespace Store.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Product product = await db.Products.FindAsync(id);
+            if (db.Images.ToList().Count > 0)
+            {
+                foreach (var item in db.Images.ToList())
+                {
+                    if (item.Product.Id == product.Id)
+                    {
+                        db.Images.Remove(item);
+                    }
+                }
+                await db.SaveChangesAsync();
+            }
             db.Products.Remove(product);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
