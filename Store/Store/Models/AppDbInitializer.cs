@@ -17,6 +17,13 @@ namespace Store.Models
             context.Headings.Add(heading);
             context.SaveChanges();
             context.SaveChanges();
+
+            Headings heading1 = new Headings();
+            heading1.Name = "Double";
+            context.Headings.Add(heading1);
+            context.SaveChanges();
+            context.SaveChanges();
+
             base.Seed(context);
         }
     }

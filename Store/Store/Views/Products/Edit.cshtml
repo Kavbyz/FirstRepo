@@ -56,54 +56,67 @@
         </div>
 
         <div id="forHeading">
-            @Html.DropDownList("Heading", ViewBag.Headings as SelectList)
-            <br />
+            @*@Html.DropDownList("Heading", ViewBag.Headings as SelectList)
+            <br />*@
         </div>
-        <button id="AddHeadings">Добавить Рубрику</button>
+        <input type="button" id="AddHeadings" value="Добавить Рубрику" />
         <br />
 
-        <script>
-            $("#AddHeadings").click(function () {
-                e.preventDefault();
-                var select = document.createElement("select");
-                select.name = "Heading";
-                @*var lenght = ViewBag.CountElem;
-                var arrHeadings = @ViewBag.HeadingsArray;*@
-                @foreach (var item in ViewBag.HeadingsList)
-                {
-                    <text>
-                    var option = document.createElement("option");
-                    option.innerText = '@item.ToString()';
-                    select.appendChild(option);
-                </text>
-                }
-                //for (var i = 0; i < lenght; i++)
-                //{
-                //    var option = document.createElement("option");
-                //    option.value = arrHeadings[i];
-                //    select.appendChild(option);
-                //}
-                    document.getElementById("forHeading").appendChild(select);
-                    document.getElementById("forHeading").appendChild(document.createElement("br"));
-            });
-        </script>
 
         <input type="file" name="upload" id="uploadFile" multiple />
         <button id="submit" class="btn btn-success">Загрузить</button>
         <script>
             $(document).ready(function () {
+                var countHeading = 0;
+                @foreach(var item in Model.Headings)
+                {
+                if (ViewBag.HeadingsList!=null)
+                {
+                    <text>
+                    countHeading++;
+                    var divHeading = document.createElement("div");
+                    divHeading.id = "div" + countHeading;
+                    var select = document.createElement("select");
+                    select.name = "Heading";
+                    @foreach (var item1 in ViewBag.HeadingsList)
+                    {
+                        <text>
+                        var option = document.createElement("option");
+                        option.innerText = '@item1.ToString()';
+                        if ('@item1.ToString()' == '@item.Name')
+                            {
+                                option.selected = "select";
+                            }
+                        select.appendChild(option);
+                    </text>
+                    }
+                        var delheading = document.createElement("input");
+                        delheading.type = "button";
+                        delheading.id = countHeading;
+                        delheading.value = "Удалить";
+                        delheading.onclick = function () {
+                            //alert("div" + this.id.toString());
+                            document.getElementById("forHeading").removeChild(document.getElementById("div" + this.id.toString()));
+                        };
+                        divHeading.appendChild(select);
+                        divHeading.appendChild(delheading);
+                        document.getElementById("forHeading").appendChild(divHeading);
+                        document.getElementById("forHeading").appendChild(document.createElement("br"));
+                </text>
+                }
+                }
                 var count = 0;
                 @foreach(var item in Model.Images)
                 {
                     <text>
                 count++;
                 var img = document.createElement('img');
-                img.src = '@item';
+                img.src = '@item.Path';
                 img.name = "Image";
                 var input = document.createElement('input');
                 input.className = "inputImg";
                 input.name = "Img";
-                input.value = '@item';
+                input.value = '@item.Path';
                 input.hidden = "hidden";
                 input.id = "input" + count;
                 var checkbox = document.createElement("input");
@@ -124,34 +137,6 @@
                 $('#submit').click(function (e) {
                         e.preventDefault();
                         var files = document.getElementById('uploadFile').files;
-
-                        @*var arrimg = document.getElementsByClassName("inputImg");
-                        if (arrimg.length > 0)
-                        {
-                            var data = new FormData();
-                            data.append("imglenght", arrimg.length);
-                            for (var i = 0; i < arrimg.length;i++)
-                            {
-                                data.append("img"+i, arrimg[i].value);
-                            }
-                            $.ajax({
-                                type: "POST",
-                                url: '@Url.Action("DeleteImageOnCreate", "Products")',
-                                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
-                                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
-                                data: data,
-                                success: function (result) {
-                                    var myNode = document.getElementById("forImage");
-                                        while (myNode.firstChild) {
-                                            myNode.removeChild(myNode.firstChild);
-                                        }
-                                },
-                                error: function (xhr, status, p3) {
-                                    alert(xhr.responseText);
-                                }
-                            });
-                        }*@
-
                         if (files.length > 0) {
                             // Конструктор FormData() создает HTML-форму.
                             var data = new FormData();
@@ -204,18 +189,50 @@
                         }
 
                 });
+                $("#AddHeadings").click(function () {
+                @if (ViewBag.HeadingsList!=null)
+                {
+                    <text>
+                    countHeading++;
+                    var divHeading = document.createElement("div");
+                    divHeading.id = "div" + countHeading;
+                    var select = document.createElement("select");
+                    select.name = "Heading";
+                    @foreach (var item1 in ViewBag.HeadingsList)
+                    {
+                        <text>
+                        var option = document.createElement("option");
+                        option.innerText = '@item1.ToString()';
+                        select.appendChild(option);
+                    </text>
+                    }
+                        var delheading = document.createElement("input");
+                        delheading.type = "button";
+                        delheading.id = countHeading;
+                        delheading.value = "Удалить";
+                        delheading.onclick = function () {
+                            //alert("div" + this.id.toString());
+                            document.getElementById("forHeading").removeChild(document.getElementById("div" + this.id.toString()));
+                        };
+                        divHeading.appendChild(select);
+                        divHeading.appendChild(delheading);
+                        document.getElementById("forHeading").appendChild(divHeading);
+                        document.getElementById("forHeading").appendChild(document.createElement("br"));
+                </text>
+                }
+            });
             });
         </script>
 
         <div id="forImage">
 
-            <button id="Del">Удалить</button>
+            <input type="button" id="Del" value="Удалить" />
         </div>
         <script>
-            $("#Del").click(function () {
+             $("#Del").click(function () {
                 var arrimgC = document.getElementsByClassName("checkboxImg");
 
-                alert(arrimgC.length);
+                //alert(arrimgC.length);
                 if (arrimgC.length > 0)
                         {
                     var data = new FormData();
@@ -230,7 +247,7 @@
                             //alert(arrimgC[i].id);
                         }
                     }
-                    alert(arrimg.length);
+                    //alert(arrimg.length);
                     if (arrimg.length > 0)
                     {
                         data.append("imglenght", arrimg.length);
@@ -247,7 +264,14 @@
                                 success: function (result) {
                                     if (idDel.length > 0) {
                                         for (var i = 0; i < idDel.length; i++) {
-                                            document.getElementById("forImage").removeChild(document.getElementById("div" + idDel[i].toString()));
+                                            for (var j = 0; j < document.getElementById("forImage").childNodes.length; j++) {
+                                                if (document.getElementById("forImage").childNodes[j].id != undefined) {
+                                                    if (document.getElementById("forImage").childNodes[j].id == "div" + idDel[i].toString()) {
+                                                        document.getElementById("forImage").removeChild(document.getElementById("forImage").childNodes[j]);
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     alert("Фотографии удалены");

@@ -79,7 +79,7 @@ namespace Store.Controllers
                 HeadingsName.Add(item.Name);                
             }
             ViewBag.HeadingsList = HeadingsName;
-            ViewBag.Headings = new SelectList(HeadingsName);
+            //ViewBag.Headings = new SelectList(HeadingsName);
             return View();
         }
 
@@ -91,7 +91,9 @@ namespace Store.Controllers
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,Count,Price,Description")] Product product, List<string> Img, List<string> Heading)
         {
             if (ModelState.IsValid)
-            {
+            {                          
+                db.Products.Add(product);
+                await db.SaveChangesAsync();
                 if (Heading != null)
                 {
                     foreach (var item in Heading)
@@ -101,8 +103,6 @@ namespace Store.Controllers
                     }
                     await db.SaveChangesAsync();
                 }
-                db.Products.Add(product);
-                await db.SaveChangesAsync();                
                 if (Img != null)
                 {
                     foreach (var item in Img)
@@ -114,6 +114,7 @@ namespace Store.Controllers
                     }
                     await db.SaveChangesAsync();
                 }
+
                 return RedirectToAction("Index");
             }
 
@@ -151,28 +152,55 @@ namespace Store.Controllers
         {
             if (ModelState.IsValid)
             {
+                Product productTrouble = await db.Products.FindAsync(product.Id);
+                productTrouble.Name = product.Name;
+                productTrouble.Count = product.Count;
+                productTrouble.Price = product.Price;
+                productTrouble.Description = product.Description;
+
+
+                foreach (var item in productTrouble.Headings.ToList())
+                {
+                    productTrouble.Headings.Remove(item);
+                }
                 if (Heading != null)
                 {
                     foreach (var item in Heading)
                     {
                         Headings Headings = db.Headings.ToList().Where(a => a.Name == item).FirstOrDefault();
-                        product.Headings.Add(Headings);
+                        productTrouble.Headings.Add(Headings);
+                    }
+                }
+                
+
+                db.Entry(productTrouble).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+
+                if (db.Images.ToList().Count > 0)
+                {
+                    foreach (var item in db.Images.ToList())
+                    {
+                        if (item.Product.Id == productTrouble.Id)
+                        {
+                            db.Images.Remove(item);
+                        }
                     }
                     await db.SaveChangesAsync();
                 }
+
                 if (Img != null)
                 {
                     foreach (var item in Img)
                     {
                         Images img = new Images();
                         img.Path = item;
-                        img.Product = product;
+                        img.Product = productTrouble;
                         db.Images.Add(img);
                     }
                     await db.SaveChangesAsync();
                 }
-                db.Entry(product).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+
+
                 return RedirectToAction("Index");
             }
             return View(product);
