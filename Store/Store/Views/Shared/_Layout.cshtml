@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-@*@model IEnumerable<Store.Models.Headings>*@
+@model IEnumerable<Store.Models.Headings>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -37,7 +37,7 @@
     {
         <table class="table">
             <tr>
-                @*@Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = 1 })*@
+                @Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = (int)item.Id },null)
             </tr>
         </table>
     }

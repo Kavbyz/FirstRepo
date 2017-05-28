@@ -128,7 +128,12 @@ namespace Store.Controllers
 
         public async Task<ActionResult> SearchProducts(int? id)
         {
-            var P = db.Headings.Where(h => h.Id == id).Select(p => p.Products);
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var P = db.Headings.Where(h => h.Id == id).Select(p => p.Products); 
             return View(await P.ToListAsync());
         }
     }
