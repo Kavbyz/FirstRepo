@@ -133,8 +133,8 @@ namespace Store.Controllers
                 return HttpNotFound();
             }
 
-            var P = db.Headings.Where(h => h.Id == id).Select(p => p.Products); 
-            return View(await P.ToListAsync());
+            var P = db.Headings.Where(h => h.Id == id).FirstOrDefault().Products.ToList();
+            return View(P);
         }
     }
 }
