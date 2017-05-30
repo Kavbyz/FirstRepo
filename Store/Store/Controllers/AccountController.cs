@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Store.Models;
+using System.Collections.Generic;
+using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Store.Controllers
 {
@@ -61,6 +65,21 @@ namespace Store.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public ActionResult FormSubmit()
+        //{
+
+        //    var response = Request["g-recaptcha-response"];
+        //    string secretKey = "your secret key here";
+        //    var client = new WebClient();
+        //    var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+        //    var obj = JObject.Parse(result);
+        //    var status = (bool)obj.SelectToken("success");
+        //    ViewBag.Message = status ? "Google reCaptcha validation success" : "Google reCaptcha validation failed";
+
+        //    return View("Create");
+        //}
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -72,6 +91,19 @@ namespace Store.Controllers
             {
                 return View(model);
             }
+
+            //var response = Request["g-recaptcha-response"];
+            //string secretKey = "6LdUQCMUAAAAAI2qYslqzo-XU1sOyFNfVP6FNwY9";
+            //var client = new WebClient();
+            //var result1 = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
+            //var obj = JObject.Parse(result1);
+            //var status = (bool)obj.SelectToken("success");
+            //ViewBag.Message = status ? "Google reCaptcha validation success" : "Google reCaptcha validation failed";
+
+            //if(status==false)
+            //{
+            //    return View(model);
+            //}
 
             // Сбои при входе не приводят к блокированию учетной записи
             // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true

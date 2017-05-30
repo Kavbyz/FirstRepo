@@ -36,6 +36,16 @@
                         </div>
                     </div>
                 </div>
+
+                @*using (Html.BeginForm("FormSubmit", "Account", FormMethod.Post))
+                {
+                    <div class="g-recaptcha" data-sitekey="6LdUQCMUAAAAAGB3g5lRYel4SOVbzhSCs-dqNkFB"></div>
+                    <input type="submit" value="Submit" />
+                }*@
+                @*<div class="g-recaptcha" data-sitekey="6LdUQCMUAAAAAGB3g5lRYel4SOVbzhSCs-dqNkFB"></div>
+                <span style="display:inline-block; font-size:20px;margin:20px 0;padding:20px;border:1px solid #D3D3D3">
+                    @ViewBag.Message
+                </span>*@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Выполнить вход" class="btn btn-default" />
@@ -44,10 +54,10 @@
                 <p>
                     @Html.ActionLink("Регистрация нового пользователя", "Register")
                 </p>
-                @* Включите, когда будет включено подтверждение учетной записи для функции сброса пароля
+                 //Включите, когда будет включено подтверждение учетной записи для функции сброса пароля
                     <p>
                         @Html.ActionLink("Забыли пароль?", "ForgotPassword")
-                    </p>*@
+                    </p>
             }
         </section>
     </div>
@@ -60,4 +70,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+@*<script src='https://www.google.com/recaptcha/api.js'></script>*@
 }

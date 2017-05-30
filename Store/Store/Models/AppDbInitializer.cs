@@ -43,6 +43,27 @@ namespace Store.Models
             context.SaveChanges();
 
 
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+            var roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
+
+            var role1 = new ApplicationRole { Name = "Admin" };
+            var role2 = new ApplicationRole { Name = "User" };
+
+            roleManager.Create(role1);
+            roleManager.Create(role2);
+
+            var admin = new ApplicationUser { Email = "somemail@mail.ru", UserName = "somemail@mail.ru" };
+            string password = "ad46D_ewr3";
+            var result = userManager.Create(admin, password);
+
+            // если создание пользователя прошло успешно
+            if (result.Succeeded)
+            {
+                // добавляем для пользователя роль
+                userManager.AddToRole(admin.Id, role1.Name);
+                userManager.AddToRole(admin.Id, role2.Name);
+            }
+
             base.Seed(context);
         }
     }
