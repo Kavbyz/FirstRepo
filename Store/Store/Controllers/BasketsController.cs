@@ -8,111 +8,112 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
+using System.Threading;
+using Microsoft.AspNet.Identity;
 
 namespace Store.Controllers
 {
-    public class HeadingsController : Controller
+    public class BasketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Headings
+        // GET: Baskets
         public async Task<ActionResult> Index()
         {
-            ViewBag.HeadingsList = db.Headings.ToList();
-            return View(await db.Headings.ToListAsync());
+            return View(await db.Basket.ToListAsync());
         }
 
-        // GET: Headings/Details/5
+        // GET: Baskets/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Headings headings = await db.Headings.FindAsync(id);
-            if (headings == null)
+            Basket basket = await db.Basket.FindAsync(id);
+            if (basket == null)
             {
                 return HttpNotFound();
             }
-            return View(headings);
+            return View(basket);
         }
 
-        // GET: Headings/Create
+        // GET: Baskets/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Headings/Create
+        // POST: Baskets/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name")] Headings headings)
+        public async Task<ActionResult> Create([Bind(Include = "Id")] Basket basket)
         {
             if (ModelState.IsValid)
             {
-                db.Headings.Add(headings);
+                db.Basket.Add(basket);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(headings);
+            return View(basket);
         }
 
-        // GET: Headings/Edit/5
+        // GET: Baskets/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Headings headings = await db.Headings.FindAsync(id);
-            if (headings == null)
+            Basket basket = await db.Basket.FindAsync(id);
+            if (basket == null)
             {
                 return HttpNotFound();
             }
-            return View(headings);
+            return View(basket);
         }
 
-        // POST: Headings/Edit/5
+        // POST: Baskets/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name")] Headings headings)
+        public async Task<ActionResult> Edit([Bind(Include = "Id")] Basket basket)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(headings).State = EntityState.Modified;
+                db.Entry(basket).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(headings);
+            return View(basket);
         }
 
-        // GET: Headings/Delete/5
+        // GET: Baskets/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Headings headings = await db.Headings.FindAsync(id);
-            if (headings == null)
+            Basket basket = await db.Basket.FindAsync(id);
+            if (basket == null)
             {
                 return HttpNotFound();
             }
-            return View(headings);
+            return View(basket);
         }
 
-        // POST: Headings/Delete/5
+        // POST: Baskets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Headings headings = await db.Headings.FindAsync(id);
-            db.Headings.Remove(headings);
+            Basket basket = await db.Basket.FindAsync(id);
+            db.Basket.Remove(basket);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -125,31 +126,17 @@ namespace Store.Controllers
             }
             base.Dispose(disposing);
         }
-
-        public async Task<ActionResult> SearchProducts(int? id, int temp = 0)
+            public async Task<ActionResult> AddProduct(int? id)
         {
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.HeadingId = id;
-            if (temp == 1)
-            {
-                var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).OrderByDescending(t => t.Price).ToList();
-                return View(M);
-            }
-            if (temp == 2)
-            {
-                var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).OrderBy(t => t.Price).ToList();
-                return View(M);
-            }
-            //if (temp == 3)
-            //{
-            //    var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList().OrderBy(t => t.Price); // По популярности
-            //    return View(M);
-            //}
-            var P = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList();
-            return View(P);
+            //var principal = Thread.CurrentPrincipal;
+            //var userId = principal.Identity.GetUserId();
+            string userName = HttpContext.User.Identity.Name;
+
+            Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
+
+            basket.Products.Add((Product)db.Products.Where(p => p.Id == id).FirstOrDefault());
+            db.SaveChanges();
+            return View(basket.Products);
         }
     }
 }

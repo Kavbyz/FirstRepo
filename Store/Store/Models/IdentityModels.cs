@@ -18,6 +18,7 @@ namespace Store.Models
         {
             Comments = new List<Comment>();
             Orders = new List<Order>();
+            Basket = new Basket();
         }
 
 
