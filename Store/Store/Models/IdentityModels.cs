@@ -18,6 +18,7 @@ namespace Store.Models
         {
             Comments = new List<Comment>();
             Orders = new List<Order>();
+            Basket = new Basket();
         }
 
 
@@ -38,7 +39,6 @@ namespace Store.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Basket> Basket { get; set; }
-        public DbSet<Favorites> Favorites { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

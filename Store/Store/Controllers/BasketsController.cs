@@ -136,8 +136,6 @@ namespace Store.Controllers
 
             basket.Products.Add((Product)db.Products.Where(p => p.Id == id).FirstOrDefault());
             db.SaveChanges();
-
-
             return View(basket.Products);
         }
     }
