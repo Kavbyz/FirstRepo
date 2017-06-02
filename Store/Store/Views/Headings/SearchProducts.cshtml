@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<Store.Models.Product>
 
 <p>
-    @Html.ActionLink("От Дорогих к дешевым", "SearchProducts", "Headings", new { temp = 1, id = ViewBag.HeadingId }, null)
-    @Html.ActionLink("От Дешевых к дорогим", "SearchProducts", "Headings", new { temp = 2, id = ViewBag.HeadingId }, null)
-    @Html.ActionLink("По популярности", "SearchProducts", "Headings", new { temp = 3, id = ViewBag.HeadingId }, null)
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -37,7 +35,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = item.Id }, null)
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

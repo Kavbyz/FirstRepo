@@ -63,7 +63,7 @@ namespace Store.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
 
-            var userId = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId();            
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -72,9 +72,10 @@ namespace Store.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            ViewBag.User = UserManager.FindById(User.Identity.GetUserId());
             return View(model);
         }
-
+        
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -117,17 +118,23 @@ namespace Store.Controllers
                 return View(model);
             }
             // Создание и отправка маркера
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
-            if (UserManager.SmsService != null)
-            {
-                var message = new IdentityMessage
-                {
-                    Destination = model.Number,
-                    Body = "Ваш код безопасности: " + code
-                };
-                await UserManager.SmsService.SendAsync(message);
-            }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+            //var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+            //if (UserManager.SmsService != null)
+            //{
+            //    var message = new IdentityMessage
+            //    {
+            //        Destination = model.Number,
+            //        Body = "Ваш код безопасности: " + code
+            //    };
+            //    await UserManager.SmsService.SendAsync(message);
+            //}
+            //return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            user.PhoneNumber = model.Number;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            UserManager.Update(user);
+            return RedirectToAction("Index", new { Message = "" });
         }
 
         //
