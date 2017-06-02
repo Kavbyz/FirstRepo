@@ -126,29 +126,14 @@ namespace Store.Controllers
             base.Dispose(disposing);
         }
 
-        public async Task<ActionResult> SearchProducts(int? id, int temp = 0)
+        public async Task<ActionResult> SearchProducts(int? id)
         {
             if (id == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.HeadingId = id;
-            if (temp == 1)
-            {
-                var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).OrderByDescending(t => t.Price).ToList();
-                return View(M);
-            }
-            if (temp == 2)
-            {
-                var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).OrderBy(t => t.Price).ToList();
-                return View(M);
-            }
-            //if (temp == 3)
-            //{
-            //    var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList().OrderBy(t => t.Price); // По популярности
-            //    return View(M);
-            //}
-            var P = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList();
+
+            var P = db.Headings.Where(h => h.Id == id).FirstOrDefault().Products.ToList();
             return View(P);
         }
     }
