@@ -61,6 +61,12 @@ namespace Store.Models
     public class AddPhoneNumberViewModel
     {
         [Required]
+        [Display(Name = "Имя")]
+        public string UserName { get; set; }
+        [Required]
+        [Display(Name = "Почта")]
+        public string Email { get; set; }
+        [Required]
         [Phone]
         [Display(Name = "Номер телефона")]
         public string Number { get; set; }
