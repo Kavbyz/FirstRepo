@@ -132,13 +132,28 @@ namespace Store.Controllers
             //var userId = principal.Identity.GetUserId();
             string userName = HttpContext.User.Identity.Name;
 
+            var basket = db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
+            var line = basket.lineCollection.Where(p => p.Product.Id == id).FirstOrDefault();
             
 
             //Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
 
-            //basket.Products.Add((Product)db.Products.Where(p => p.Id == id).FirstOrDefault());
+            if (line == null)
+            {
+                basket.lineCollection.Add(new CartLine
+                {
+                    Product = (Product)db.Products.Where(i => i.Id == id).First(),
+                    Quantity = 2
+                }
+                    );
+            }
+            else
+            {
+                line.Quantity ++;
+            }
             db.SaveChanges();
-            return View(basket.Products);
+            ViewBag.list = basket.lineCollection;
+            return View();
         }
     }
 }
