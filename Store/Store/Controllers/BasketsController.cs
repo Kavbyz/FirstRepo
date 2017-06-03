@@ -132,9 +132,11 @@ namespace Store.Controllers
             //var userId = principal.Identity.GetUserId();
             string userName = HttpContext.User.Identity.Name;
 
-            Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
+            
 
-            basket.Products.Add((Product)db.Products.Where(p => p.Id == id).FirstOrDefault());
+            //Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
+
+            //basket.Products.Add((Product)db.Products.Where(p => p.Id == id).FirstOrDefault());
             db.SaveChanges();
             return View(basket.Products);
         }
