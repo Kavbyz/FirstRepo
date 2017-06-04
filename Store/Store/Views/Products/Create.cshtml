@@ -63,7 +63,7 @@
             $(document).ready(function () {
                 var countHeading = 0;
 
-                @if (ViewBag.HeadingsList!=null)
+                @if (ViewBag.HeadingsListProduct!=null)
                 {
                     <text>
                     countHeading++;
@@ -71,7 +71,7 @@
                     divHeading.id = "div" + countHeading;
                     var select = document.createElement("select");
                     select.name = "Heading";
-                    @foreach (var item1 in ViewBag.HeadingsList)
+                    @foreach (var item1 in ViewBag.HeadingsListProduct)
                     {
                         <text>
                         var option = document.createElement("option");
@@ -181,7 +181,7 @@
                 });
                 $("#AddHeadings").click(function () {
 
-                    @if (ViewBag.HeadingsList!=null)
+                    @if (ViewBag.HeadingsListProduct!=null)
                 {
                     <text>
                     countHeading++;
@@ -189,7 +189,7 @@
                     divHeading.id = "div" + countHeading;
                     var select = document.createElement("select");
                     select.name = "Heading";
-                    @foreach (var item1 in ViewBag.HeadingsList)
+                    @foreach (var item1 in ViewBag.HeadingsListProduct)
                     {
                         <text>
                         var option = document.createElement("option");

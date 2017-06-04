@@ -131,7 +131,7 @@ namespace Store.Controllers
             //var principal = Thread.CurrentPrincipal;
             //var userId = principal.Identity.GetUserId();
             string userName = HttpContext.User.Identity.Name;
-
+            //А корзина точно есть?
             var basket = db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
             var line = basket.lineCollection.Where(p => p.Product.Id == id).FirstOrDefault();
             

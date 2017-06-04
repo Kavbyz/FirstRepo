@@ -56,6 +56,41 @@ namespace Store.Controllers
             }
         }
 
+        private ApplicationDbContext db { get { return HttpContext.GetOwinContext().Get<ApplicationDbContext>(); } }
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            return View(UserManager.Users.ToList());
+        }
+
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            ApplicationUser user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(user);
+        }
+
+        // POST: Posts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            ApplicationUser user = db.Users.Find(id);
+            db.Users.Remove(user);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
