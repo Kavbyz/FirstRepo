@@ -13,6 +13,7 @@ namespace Store.Models
         public virtual Basket Basket { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public string Adress { get; set; }
 
         public ApplicationUser()
         {

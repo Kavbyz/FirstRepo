@@ -131,7 +131,7 @@ namespace Store.Controllers
             //var principal = Thread.CurrentPrincipal;
             //var userId = principal.Identity.GetUserId();
             string userName = HttpContext.User.Identity.Name;
-
+            //А корзина точно есть?
             var basket = db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
             // Product p = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
             
@@ -147,6 +147,14 @@ namespace Store.Controllers
             foreach (var i in basket.Products) {
                 int temp = 0;
                 foreach (var item in basket.Products)
+            var line = basket.lineCollection.Where(p => p.Product.Id == id).FirstOrDefault();
+            
+
+            //Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
+
+            if (line == null)
+            {
+                basket.lineCollection.Add(new CartLine
                 {
                     if (i.Id == item.Id)
                         temp++;

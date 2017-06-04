@@ -78,7 +78,8 @@ namespace Store.Controllers
             {
                 HeadingsName.Add(item.Name);                
             }
-            ViewBag.HeadingsList = HeadingsName;
+            ViewBag.HeadingsListProduct = HeadingsName;
+            ViewBag.HeadingsList = db.Headings.ToList();
             //ViewBag.Headings = new SelectList(HeadingsName);
             return View();
         }
@@ -138,8 +139,9 @@ namespace Store.Controllers
             {
                 HeadingsName.Add(item.Name);
             }
-            ViewBag.HeadingsList = HeadingsName;
+            ViewBag.HeadingsListProduct = HeadingsName;
             ViewBag.Headings = new SelectList(HeadingsName);
+            ViewBag.HeadingsList = db.Headings.ToList();
             return View(product);
         }
 

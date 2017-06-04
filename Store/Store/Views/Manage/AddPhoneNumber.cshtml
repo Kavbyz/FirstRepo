@@ -31,6 +31,23 @@
         </div>
     </div>
 
+    if (@ViewBag.isAdmin == 1)
+    {
+        @Html.RadioButton("Role", "Admin", true);
+        <span>Admin</span><br />
+        @Html.RadioButton("Role", "User", false);
+        <span>User</span><br />
+    }
+    else
+    {
+        @Html.RadioButton("Role", "Admin", false);
+        <span>Admin</span><br />
+        @Html.RadioButton("Role", "User", true);
+        <span>User</span><br />
+    }
+
+    <input name="UserId" value="@ViewBag.userId" hidden />
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Отправить" />

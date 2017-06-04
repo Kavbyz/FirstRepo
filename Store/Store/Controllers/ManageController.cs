@@ -52,7 +52,7 @@ namespace Store.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ManageMessageId? message, string UserId)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
@@ -63,7 +63,7 @@ namespace Store.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
 
-            var userId = User.Identity.GetUserId();
+            var userId = UserId;
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -72,7 +72,11 @@ namespace Store.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
-            ViewBag.User = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.User = UserManager.FindById(UserId);
+            if(UserManager.FindById(User.Identity.GetUserId()).Roles.Where(a=> HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count>0&&UserId== User.Identity.GetUserId())
+            {
+                ViewBag.isAdmin = 1;
+            }
             return View(model);
         }
 
@@ -102,8 +106,13 @@ namespace Store.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public ActionResult AddPhoneNumber()
+        public ActionResult AddPhoneNumber(string UserId)
         {
+            ViewBag.userId = UserId;
+            if (UserManager.FindById(UserId).Roles.Where(a => HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count > 0)
+            {
+                ViewBag.isAdmin = 1;
+            }
             return View();
         }
 
@@ -111,7 +120,7 @@ namespace Store.Controllers
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+        public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model, string UserId, string Role)
         {
             if (!ModelState.IsValid)
             {
@@ -130,12 +139,27 @@ namespace Store.Controllers
             //}
             //return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
 
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if(Role=="Admin")
+            {
+                if (UserManager.FindById(UserId).Roles.Where(a => HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count < 1)
+                {
+                    UserManager.AddToRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);                    
+                }
+            }
+            else if(Role=="User")
+            {
+                if (UserManager.FindById(UserId).Roles.Where(a => HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count > 0)
+                {
+                    UserManager.RemoveFromRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);
+                }
+            }
+
+            var user = await UserManager.FindByIdAsync(UserId);
             user.PhoneNumber = model.Number;
             user.UserName = model.UserName;
             user.Email = model.Email;
             UserManager.Update(user);
-            return RedirectToAction("Index", new { Message = "" });
+            return RedirectToAction("Index", new {Message = "", UserId = UserId });
         }
 
         //

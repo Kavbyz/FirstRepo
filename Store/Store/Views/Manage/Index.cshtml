@@ -18,21 +18,25 @@
             <dd>@ViewBag.User.Email</dd>
             <dt>PhoneNumber:</dt>
             <dd>@ViewBag.User.PhoneNumber</dd>
-            <dd>@Html.ActionLink("Изменить Данные Пользователя", "AddPhoneNumber")</dd>
-        }
-        <dt>Пароль:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
+            <dt>Пароль:</dt>
+            <dd>
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Смена пароля", "ChangePassword")
+                }
+                else
+                {
+                    @Html.ActionLink("Создать", "SetPassword")
+                }
+            </dd>
+            <dd>@Html.ActionLink("Изменить Данные Пользователя", "AddPhoneNumber", routeValues: new { UserId=@ViewBag.User.Id })</dd>
+            if (@ViewBag.isAdmin == 1)
             {
-                @Html.ActionLink("Смена пароля", "ChangePassword")
+
+                @Html.ActionLink("Список пользователей", "Index", "Account")
+                @Html.ActionLink("Добавить товар", "Create", "Products")
             }
-            else
-            {
-                @Html.ActionLink("Создать", "SetPassword")
-            }
-            ]
-        </dd>
+        }        
         @*<dt>Внешние имена входа:</dt>
             <dd>
                 @Model.Logins.Count [
