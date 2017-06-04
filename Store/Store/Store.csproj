@@ -293,8 +293,8 @@
     <Content Include="Views\Baskets\Details.cshtml" />
     <Content Include="Views\Baskets\Edit.cshtml" />
     <Content Include="Views\Baskets\Index.cshtml" />
-    <Content Include="Views\Baskets\AddProduct.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Baskets\AddProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

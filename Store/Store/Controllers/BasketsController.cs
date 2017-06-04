@@ -126,44 +126,33 @@ namespace Store.Controllers
             }
             base.Dispose(disposing);
         }
-            public async Task<ActionResult> AddProduct(int id)
+        public async Task<ActionResult> AddProduct(int? id)
         {
             //var principal = Thread.CurrentPrincipal;
             //var userId = principal.Identity.GetUserId();
             string userName = HttpContext.User.Identity.Name;
             //А корзина точно есть?
-            var basket = db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
-            // Product p = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
-            
+            var basket = db.Users.Where(i => i.UserName == userName).Select(b => b.Basket).Include(f=>f.Cartlines).FirstOrDefault();
+            Product p = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
+            CartLine c = new CartLine { Product = p, Quantity = 1 };
 
-            Product prod2 = new Product();
-            prod2.Description = "htyrjkrty";
-            prod2.Count = 22;
-            prod2.Price = 2352;
-            prod2.Name = ",yu234tyier235gr";
+            List<Product> allP = db.Products.ToList();
 
-            basket.Products.Add(prod2);
-            List<CartLine> c = new List<CartLine>();
-            foreach (var i in basket.Products) {
-                int temp = 0;
-                foreach (var item in basket.Products)
-            var line = basket.lineCollection.Where(p => p.Product.Id == id).FirstOrDefault();
-            
-
-            //Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
-
-            if (line == null)
-            {
-                basket.lineCollection.Add(new CartLine
-                {
-                    if (i.Id == item.Id)
-                        temp++;
-                }
-                CartLine t = new CartLine { Product = i, Quantity = temp };
-                c.Add(t);
-            }
+            basket.Cartlines.Add(c);
+            //List<Product> pl = new List<Product>();
+            //foreach (var item in basket.Cartlines)
+            //{
+            //    pl.Add(item.Product);
+            //}
             db.SaveChanges();
-            ViewBag.List = c;
+
+            List<CartLine> list = new List<CartLine>();
+
+            //foreach (var item in basket.Cartlines)
+            //{
+            //    for(int i=1;i<=basket.Cartlines)
+            //}
+            ViewBag.List = list;
             return View();
         }
     }
