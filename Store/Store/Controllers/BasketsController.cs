@@ -8,14 +8,38 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
-using System.Threading;
-using Microsoft.AspNet.Identity;
 
 namespace Store.Controllers
 {
     public class BasketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public async Task<ActionResult> AddProduct()
+        {
+            Basket basket = db.Basket.ToList()[0];
+            Product product = db.Products.ToList()[0];
+            if (basket.Products.Where(a => a.Id == product.Id).ToList().Count > 0)
+            {
+                basket.CountProduct.Where(a => a.IdProduct == product.Id).FirstOrDefault().CountProduct++;
+
+                db.Entry(basket.CountProduct.Where(a => a.IdProduct == product.Id).FirstOrDefault()).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                Count count = new Count();
+                count.CountProduct = 1;
+                count.IdProduct = product.Id;
+
+                basket.Products.Add(product);
+                basket.CountProduct.Add(count);
+
+                db.SaveChanges();
+            }
+
+            return View(basket.Products.ToList());
+        }
 
         // GET: Baskets
         public async Task<ActionResult> Index()
@@ -125,46 +149,6 @@ namespace Store.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-            public async Task<ActionResult> AddProduct(int id)
-        {
-            //var principal = Thread.CurrentPrincipal;
-            //var userId = principal.Identity.GetUserId();
-            string userName = HttpContext.User.Identity.Name;
-            //А корзина точно есть?
-            var basket = db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
-            // Product p = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
-            
-
-            Product prod2 = new Product();
-            prod2.Description = "htyrjkrty";
-            prod2.Count = 22;
-            prod2.Price = 2352;
-            prod2.Name = ",yu234tyier235gr";
-
-            basket.Products.Add(prod2);
-            List<CartLine> c = new List<CartLine>();
-            foreach (var i in basket.Products) {
-                int temp = 0;
-                foreach (var item in basket.Products)
-            var line = basket.lineCollection.Where(p => p.Product.Id == id).FirstOrDefault();
-            
-
-            //Basket basket = (Basket)db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
-
-            if (line == null)
-            {
-                basket.lineCollection.Add(new CartLine
-                {
-                    if (i.Id == item.Id)
-                        temp++;
-                }
-                CartLine t = new CartLine { Product = i, Quantity = temp };
-                c.Add(t);
-            }
-            db.SaveChanges();
-            ViewBag.List = c;
-            return View();
         }
     }
 }
