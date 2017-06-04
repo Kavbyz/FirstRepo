@@ -204,6 +204,7 @@
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\ApplicationRoleManager.cs" />
     <Compile Include="Models\Basket.cs" />
+    <Compile Include="Models\Count.cs" />
     <Compile Include="Models\Headings.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -288,12 +289,12 @@
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Baskets\Create.cshtml" />
     <Content Include="Views\Baskets\Delete.cshtml" />
     <Content Include="Views\Baskets\Details.cshtml" />
     <Content Include="Views\Baskets\Edit.cshtml" />
     <Content Include="Views\Baskets\Index.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Baskets\AddProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>

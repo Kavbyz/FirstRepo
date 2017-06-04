@@ -36,7 +36,7 @@ namespace Store.Models
             prod2.Count = 22;
             prod2.Price = 2352;
             prod2.Name = ",yu234tyier235gr";
-            prod2.Headings = h;
+            prod2.Headings = h;            
 
             context.Products.Add(prod);
             context.Products.Add(prod2);
@@ -63,6 +63,11 @@ namespace Store.Models
                 userManager.AddToRole(admin.Id, role1.Name);
                 userManager.AddToRole(admin.Id, role2.Name);
             }
+
+            Basket basket = new Basket();
+            basket.User = admin;
+            context.Basket.Add(basket);
+            context.SaveChanges();
 
             base.Seed(context);
         }

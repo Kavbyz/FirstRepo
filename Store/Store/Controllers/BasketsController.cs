@@ -8,14 +8,38 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
-using System.Threading;
-using Microsoft.AspNet.Identity;
 
 namespace Store.Controllers
 {
     public class BasketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public async Task<ActionResult> AddProduct()
+        {
+            Basket basket = db.Basket.ToList()[0];
+            Product product = db.Products.ToList()[0];
+            if (basket.Products.Where(a => a.Id == product.Id).ToList().Count > 0)
+            {
+                basket.CountProduct.Where(a => a.IdProduct == product.Id).FirstOrDefault().CountProduct++;
+
+                db.Entry(basket.CountProduct.Where(a => a.IdProduct == product.Id).FirstOrDefault()).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                Count count = new Count();
+                count.CountProduct = 1;
+                count.IdProduct = product.Id;
+
+                basket.Products.Add(product);
+                basket.CountProduct.Add(count);
+
+                db.SaveChanges();
+            }
+
+            return View(basket.Products.ToList());
+        }
 
         // GET: Baskets
         public async Task<ActionResult> Index()
@@ -125,35 +149,6 @@ namespace Store.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        public async Task<ActionResult> AddProduct(int? id)
-        {
-            //var principal = Thread.CurrentPrincipal;
-            //var userId = principal.Identity.GetUserId();
-            string userName = HttpContext.User.Identity.Name;
-            //А корзина точно есть?
-            var basket = db.Users.Where(i => i.UserName == userName).Select(b => b.Basket).Include(f=>f.Cartlines).FirstOrDefault();
-            Product p = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
-            CartLine c = new CartLine { Product = p, Quantity = 1 };
-
-            List<Product> allP = db.Products.ToList();
-
-            basket.Cartlines.Add(c);
-            //List<Product> pl = new List<Product>();
-            //foreach (var item in basket.Cartlines)
-            //{
-            //    pl.Add(item.Product);
-            //}
-            db.SaveChanges();
-
-            List<CartLine> list = new List<CartLine>();
-
-            //foreach (var item in basket.Cartlines)
-            //{
-            //    for(int i=1;i<=basket.Cartlines)
-            //}
-            ViewBag.List = list;
-            return View();
         }
     }
 }
