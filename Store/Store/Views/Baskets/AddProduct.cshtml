@@ -1,16 +1,12 @@
 ﻿@model IEnumerable<Store.Models.CartLine>
-
-@{
-    ViewBag.Title = "Index";
-}
-
 <tbody>
-        @foreach (var item in ViewBag.list)
-        {
-            <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-            </tr>
-        }
+    @foreach (var item in ViewBag.List)
+    {
+        <tr>
+            
+            <td>@item.Product.Name </td>
+            <td>@item.Quantity</td>
+        </tr>
+        <p></p>
+    }
 </tbody>
-

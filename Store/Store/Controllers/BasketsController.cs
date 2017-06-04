@@ -126,30 +126,36 @@ namespace Store.Controllers
             }
             base.Dispose(disposing);
         }
-            public async Task<ActionResult> AddProduct(int? id)
+            public async Task<ActionResult> AddProduct(int id)
         {
             //var principal = Thread.CurrentPrincipal;
             //var userId = principal.Identity.GetUserId();
             string userName = HttpContext.User.Identity.Name;
 
             var basket = db.Users.Where(i => i.UserName == userName).Select(b=>b.Basket).FirstOrDefault();
-            var line = basket.lineCollection.Where(p => p.Product.Id == id).FirstOrDefault();
+            // Product p = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
+            
 
-            if (line == null)
-            {
-                basket.lineCollection.Add(new CartLine
+            Product prod2 = new Product();
+            prod2.Description = "htyrjkrty";
+            prod2.Count = 22;
+            prod2.Price = 2352;
+            prod2.Name = ",yu234tyier235gr";
+
+            basket.Products.Add(prod2);
+            List<CartLine> c = new List<CartLine>();
+            foreach (var i in basket.Products) {
+                int temp = 0;
+                foreach (var item in basket.Products)
                 {
-                    Product = (Product)db.Products.Where(i => i.Id == id).First(),
-                    Quantity = 2
+                    if (i.Id == item.Id)
+                        temp++;
                 }
-                    );
-            }
-            else
-            {
-                line.Quantity ++;
+                CartLine t = new CartLine { Product = i, Quantity = temp };
+                c.Add(t);
             }
             db.SaveChanges();
-            ViewBag.list = basket.lineCollection;
+            ViewBag.List = c;
             return View();
         }
     }

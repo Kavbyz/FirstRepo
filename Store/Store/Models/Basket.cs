@@ -22,10 +22,10 @@ namespace Store.Models
     public class Basket
     {
         public int Id { get; set; }
-        public virtual ICollection<CartLine> lineCollection { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
         public Basket()
         {
-            lineCollection = new List<CartLine>();
+            Products = new List<Product>();
         }
     }
 
