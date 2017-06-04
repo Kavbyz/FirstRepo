@@ -1,8 +1,12 @@
 ﻿@model Store.Models.Product
+@using Store.Models
 
 @{
     ViewBag.Title = "Details";
 }
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 
 <h2>Details</h2>
 
@@ -44,6 +48,41 @@
 
     </dl>
 </div>
+<div id="comments">
+    <table class="table">        
+
+        @foreach (var item in ViewBag.Comment)
+        {
+            <tr>
+                <td>
+                    @item.Commen_Name
+                    @*@Html.Display((string)item.Commen_Name)*@
+                </td>
+                <td>
+                    @*@Html.Display((string)item.Comment_Text)*@
+                    @item.Comment_Text
+                </td>
+                <td>
+                    @*@Html.Display((string)item.Date.ToLongDateString())*@
+                    @item.Date.ToLongDateString()
+                </td>
+                <td>
+                    @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@using (Ajax.BeginForm("SendComment", new AjaxOptions { UpdateTargetId = "comments" }))
+{
+    @Html.TextBox("Name");
+    @Html.TextArea("Comment");
+    <input name="IdProduct" value="@Model.Id" hidden/>
+    <input type="submit" value="Отправить" />
+}
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

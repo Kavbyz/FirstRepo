@@ -8,12 +8,40 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace Store.Controllers
 {
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult SendComment(string Name, string Comment, int IdProduct)
+        {
+            Store.Models.Comment comment = new Models.Comment();
+            comment.Comment_Text = Comment;
+            comment.Commen_Name = Name;
+            comment.Product = db.Products.Where(a => a.Id == IdProduct).FirstOrDefault();
+            comment.Date = DateTime.Now;
+
+            db.Comments.Add(comment);
+            db.SaveChanges();
+
+            return PartialView(db.Comments.ToList());
+        }
+
+        public ActionResult DeleteComment(int id)
+        {
+            Store.Models.Comment comment = db.Comments.Find(id);
+            db.Comments.Remove(comment);
+            db.SaveChanges();
+
+            return PartialView("SendComment", db.Comments.ToList());
+        }
+
+
 
         [HttpPost]
         public JsonResult Upload()
@@ -50,7 +78,7 @@ namespace Store.Controllers
 
         // GET: Products
         public async Task<ActionResult> Index()
-        {
+        {            
             ViewBag.HeadingsList = db.Headings.ToList();
             return View(await db.Products.ToListAsync());
         }
@@ -63,6 +91,7 @@ namespace Store.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = await db.Products.FindAsync(id);
+            ViewBag.Comment = db.Comments.Where(comment => comment.Product.Id == product.Id).ToList();
             if (product == null)
             {
                 return HttpNotFound();
