@@ -297,6 +297,7 @@
     <Content Include="Views\Baskets\Details.cshtml" />
     <Content Include="Views\Baskets\Edit.cshtml" />
     <Content Include="Views\Baskets\Index.cshtml" />
+    <Content Include="Views\Products\SendComment.cshtml" />
     <Content Include="Views\Baskets\AddProduct.cshtml" />
     <Content Include="Views\Products\SendComment.cshtml" />
     <Content Include="Views\Home\SearchProducts.cshtml" />
