@@ -23,11 +23,12 @@ namespace Store.Models
     {
         public int Id { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+      //  public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Count> CountProduct { get; set; }
         public Basket()
         {
-            Products = new List<Product>();
+           // Products = new List<Product>();
+            CountProduct = new List<Count>();
         }
     }
 

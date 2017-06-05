@@ -11,6 +11,6 @@ namespace Store.Models
         public DateTime Time { get; set; }
         public string Status { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public virtual ICollection<Product> product { get; set; }
+        public virtual ICollection<Count> Products { get; set; }
     }
 }
