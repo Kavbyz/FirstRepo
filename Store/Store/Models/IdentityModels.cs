@@ -49,5 +49,7 @@ namespace Store.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Store.Models.CartLine> CartLines { get; set; }
     }
 }
