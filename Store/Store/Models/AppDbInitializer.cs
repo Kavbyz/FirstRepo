@@ -64,6 +64,14 @@ namespace Store.Models
                 userManager.AddToRole(admin.Id, role2.Name);
             }
 
+            Comment comment = new Comment();
+            comment.Commen_Name = "qwerty";
+            comment.Comment_Text = "asdfgh";
+            comment.Product = prod;
+            comment.Date = DateTime.Now;
+            context.Comments.Add(comment);
+            context.SaveChanges();
+
             Basket basket = new Basket();
             basket.User = admin;
             context.Basket.Add(basket);
