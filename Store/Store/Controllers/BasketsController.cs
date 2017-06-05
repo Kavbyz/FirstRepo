@@ -181,9 +181,10 @@ namespace Store.Controllers
 
             Count count = basket.CountProduct.Where(c => c.IdProduct == id).FirstOrDefault();
             //   Product prod = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
+            basket.CountProduct.Remove(count);
             db.Count.Remove(count);
             //   basket.Products.Remove(prod);
-            basket.CountProduct.Remove(count);
+            
 
 
 

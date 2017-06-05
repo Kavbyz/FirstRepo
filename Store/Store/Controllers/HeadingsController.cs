@@ -151,5 +151,5 @@ namespace Store.Controllers
             var P = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList();
             return View(P);
         }
-    }
+        }
 }
