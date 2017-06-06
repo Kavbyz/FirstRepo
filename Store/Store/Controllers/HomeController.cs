@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
+using System.Threading.Tasks;
 
 namespace Store.Controllers
 {
@@ -38,6 +39,12 @@ namespace Store.Controllers
             ViewBag.Message = "Payment and Delivery information";
 
             return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> SearchProducts(string ProdName)
+        {
+            List<Product> p = db.Products.Where(i => i.Name.Contains(ProdName)).ToList();
+            return View(p);
         }
 
     }
