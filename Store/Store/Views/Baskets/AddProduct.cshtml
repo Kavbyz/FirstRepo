@@ -44,7 +44,7 @@
                 </td>
                 <td><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
                 <td>
-                    @Html.ActionLink("Delete", "DeleteProduct", new { id = item.Id })
+                    @Ajax.ActionLink("Delete", "DeleteProduct", new { id=@item.Id }, new AjaxOptions{ UpdateTargetId="table"})
                 </td>
             </tr>
         }

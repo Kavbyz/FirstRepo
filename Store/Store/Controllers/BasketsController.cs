@@ -259,7 +259,11 @@ namespace Store.Controllers
             db.Count.Remove(count);
             //   basket.Products.Remove(prod);
             db.SaveChanges();
-            return RedirectToAction("ViewBasket", new { idBasket = basket.Id });
+            if (basket.CountProduct.ToList().Count == 0)
+            {
+                return RedirectToAction("ViewBasket", new { idBasket = basket.Id });
+            }
+            return View("AddCount", basket.CountProduct.ToList());            
             //return View("AddProduct", basket.CountProduct.ToList());
         }
         
