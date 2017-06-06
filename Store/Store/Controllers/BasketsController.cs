@@ -22,6 +22,12 @@ namespace Store.Controllers
         {
             Basket basket = db.Basket.Find(idBasket);
             ViewBag.Message = message;
+            int total = 0;
+            foreach(var item in basket.CountProduct)
+            {
+                total += item.CountProduct * item.Product.Price;
+            }
+            ViewBag.Total = total;
             return View("AddProduct", basket.CountProduct.ToList());
         }
         public async Task<ActionResult> AddProduct(int? id)
@@ -100,6 +106,25 @@ namespace Store.Controllers
                 }
             }            
             return RedirectToAction("ViewBasket", new { idBasket=basket.Id, message = "Товар успешно добавлен в корзину" });
+        }
+
+        [HttpPost]
+        public ActionResult AddCount()
+        {
+            var current = Int32.Parse(Request.Form.GetValues("count").FirstOrDefault().ToString());
+            var idCount= Int32.Parse(Request.Form.GetValues("idCount").FirstOrDefault().ToString());
+            Count count = db.Count.Find(idCount);
+            count.CountProduct = current;
+            db.Entry(count).State = EntityState.Modified;
+            db.SaveChanges();
+            Basket basket = count.Basket;
+            int total = 0;
+            foreach (var item in basket.CountProduct)
+            {
+                total += item.CountProduct * item.Product.Price;
+            }
+            ViewBag.Total = total;
+            return View(basket.CountProduct.ToList());
         }
 
         // GET: Baskets

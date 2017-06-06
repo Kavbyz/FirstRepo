@@ -301,6 +301,7 @@
     <Content Include="Views\Baskets\AddProduct.cshtml" />
     <Content Include="Views\Products\SendComment.cshtml" />
     <Content Include="Views\Home\SearchProducts.cshtml" />
+    <Content Include="Views\Baskets\AddCount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

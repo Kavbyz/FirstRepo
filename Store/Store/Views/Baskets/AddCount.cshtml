@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Store.Models.Count>
+@{
+    Layout = null;
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountProduct)
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="@((string)"tr"+@item.Id.ToString())">
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                <button onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
+                <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
+                <button onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
+            </td>
+            <td><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteProduct", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        <td id="Total">@ViewBag.Total</td>
+        <td></td>
+    </tr>
+</table>
+
