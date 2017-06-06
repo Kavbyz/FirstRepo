@@ -9,16 +9,6 @@ namespace Store
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            //LALALALALALALALALA
-            //dukahdkuashdkaushdakus
-            ////////////////ssssssssssssssssss
-            /////kkkkkkkkkkkkkkkkkk
-
-
-
-            /// Обновление
-            /// фвцфвфцвфыв
-            /// вввввввввввввввв
         }
     }
 }

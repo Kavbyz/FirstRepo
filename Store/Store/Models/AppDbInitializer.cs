@@ -72,10 +72,10 @@ namespace Store.Models
             context.Comments.Add(comment);
             context.SaveChanges();
 
-            Basket basket = new Basket();
-            basket.User = admin;
-            context.Basket.Add(basket);
-            context.SaveChanges();
+            //Basket basket = new Basket();
+            //basket.User = admin;
+            //context.Basket.Add(basket);
+            //context.SaveChanges();
 
             base.Seed(context);
         }

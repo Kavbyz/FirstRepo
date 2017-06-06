@@ -18,6 +18,7 @@ namespace Store.Controllers
         // GET: Headings
         public async Task<ActionResult> Index()
         {
+            HttpContext.Response.Cookies["Basket"].Expires = DateTime.Now.AddDays(-1);
             ViewBag.HeadingsList = db.Headings.ToList();
             return View(await db.Headings.ToListAsync());
         }

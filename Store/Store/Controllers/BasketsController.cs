@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace Store.Controllers
 {
@@ -15,47 +18,88 @@ namespace Store.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult ViewBasket(int idBasket)
+        public ActionResult ViewBasket(int idBasket, string message)
         {
             Basket basket = db.Basket.Find(idBasket);
+            ViewBag.Message = message;
             return View("AddProduct", basket.CountProduct.ToList());
         }
         public async Task<ActionResult> AddProduct(int? id)
         {
-            string userName = HttpContext.User.Identity.Name;
-            //А корзина точно есть?
-            var user = db.Users.Where(i => i.UserName == userName).FirstOrDefault();
+            Basket basket=null;
+            String userId = User.Identity.GetUserId();
+            if (User.Identity.IsAuthenticated == false)
+            {
+                if (HttpContext.Request.Cookies["Basket"] == null)
+                {
+                    basket = new Basket();
+                    db.Basket.Add(basket);
+                    db.SaveChanges();
+                    HttpContext.Response.Cookies["Basket"].Value = basket.Id.ToString();
+                    HttpContext.Response.Cookies["Basket"].Expires = DateTime.Now.AddDays(10);
+                }
+                else
+                {
+                    String basketId = HttpContext.Request.Cookies["Basket"].Value.ToString();
+                    basket = db.Basket.Where(b => b.Id.ToString() == basketId).FirstOrDefault();
+                }
+            }
+            else
+            {
 
-            var basket = db.Basket.Where(b => b.User.Id == user.Id).FirstOrDefault();
-            
-            Product p = db.Products.Where(i => i.Id == id).FirstOrDefault();
-            if (basket.CountProduct.Where(i => i.Product.Id == id).First().CountProduct < db.Products.Where(i => i.Id == id).First().Count)
-            {
-                return RedirectToAction("ViewBasket", new { idBasket = basket.Id });
+                if (db.Basket.Where(a => a.User.Id == userId).FirstOrDefault() != null)
+                {
+                    basket = db.Basket.Where(a => a.User.Id == userId).FirstOrDefault();
+                }
+                else
+                {
+                    if (HttpContext.Request.Cookies["Basket"] == null)
+                    {
+                        basket = new Basket();                        
+                        basket.User = db.Users.Where(u => u.Id == userId).FirstOrDefault();
+                        db.Basket.Add(basket);
+                        HttpContext.Response.Cookies["Basket"].Value = basket.Id.ToString();
+                        HttpContext.Response.Cookies["Basket"].Expires = DateTime.Now.AddDays(10);
+                    }
+                    else
+                    {
+                        String basketId = HttpContext.Request.Cookies["Basket"].Value.ToString();
+                        basket = db.Basket.Where(b => b.Id.ToString() == basketId).FirstOrDefault();
+                        basket.User = db.Users.Where(u => u.Id == userId).FirstOrDefault();
+                        db.Entry(basket).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
             }
-            if (db.Count.Where(a => a.Product.Id == id).ToList().Count > 0)
-            {
-                db.Count.Where(a => a.Product.Id == id).FirstOrDefault().CountProduct++;
-                
-                db.Entry(db.Count.Where(a => a.Product.Id == id).FirstOrDefault()).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            else if (db.Count.Where(a => a.Product.Id == id).ToList().Count < 1)
-            {
-                Count count = new Count();
-                count.CountProduct = 1;
-                count.Product = p;
-                //count.Basket = basket;
-                db.Count.Add(count);
-                db.SaveChanges();
-                // basket.Products.Add(p);
-                basket.CountProduct.Add(count);
 
-                db.SaveChanges();
-            }
-            ViewBag.BasketId = basket.Id;
-            return RedirectToAction("ViewBasket", new { idBasket=basket.Id });
-            //return View(basket.CountProduct.ToList());
+            if (basket!=null)
+            {
+                Product p = db.Products.Where(i => i.Id == id).FirstOrDefault();                
+                if (basket.CountProduct.Where(i => i.Product.Id == id).ToList().Count>0)
+                {
+                    if (basket.CountProduct.Where(i => i.Product.Id == id).FirstOrDefault().CountProduct >= db.Products.Where(i => i.Id == id).FirstOrDefault().Count)
+                    {
+                        //ModelState.AddModelError("CountProduct", "Больше товаров добавить нельзя");
+                        return RedirectToAction("ViewBasket", new { idBasket = basket.Id, message= "Этого товара больше добавить нельзя" });
+                    }
+                    basket.CountProduct.Where(i => i.Product.Id == id).FirstOrDefault().CountProduct++;
+
+                    db.Entry(basket.CountProduct.Where(i => i.Product.Id == id).FirstOrDefault()).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else if (basket.CountProduct.Where(i => i.Product.Id == id).ToList().Count==0)
+                {
+                    Count count = new Count();
+                    count.CountProduct = 1;
+                    count.Product = p;
+                    db.Count.Add(count);
+                    db.SaveChanges();
+                    basket.CountProduct.Add(count);
+
+                    db.SaveChanges();
+                }
+            }            
+            return RedirectToAction("ViewBasket", new { idBasket=basket.Id, message = "Товар успешно добавлен в корзину" });
         }
 
         // GET: Baskets
