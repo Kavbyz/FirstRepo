@@ -10,6 +10,7 @@ namespace Store.Models
         public int Id { get; set; }
         public virtual Product Product { get; set; }
         public int CountProduct { get; set; }
-        public virtual Basket Basket{ get; set; }
+        public virtual Basket Basket { get; set; }
+        public virtual Order Order { get; set; }
 }
 }

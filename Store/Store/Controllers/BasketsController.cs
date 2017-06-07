@@ -28,6 +28,7 @@ namespace Store.Controllers
                 total += item.CountProduct * item.Product.Price;
             }
             ViewBag.Total = total;
+            ViewBag.idBasket = idBasket;
             return View("AddProduct", basket.CountProduct.ToList());
         }
         public async Task<ActionResult> AddProduct(int? id)
@@ -243,74 +244,32 @@ namespace Store.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            //string userName = HttpContext.User.Identity.Name;
-            //А корзина точно есть?
-            //var user = db.Users.Where(i => i.UserName == userName).FirstOrDefault();
-
-            //Basket basket = (Basket)db.Basket.Where(b => b.User.Id == user.Id).Include(e=>e.CountProduct).FirstOrDefault();
             
             Count count = db.Count.Find(id);
             Basket basket = count.Basket;
-            //   Product prod = (Product)db.Products.Where(i => i.Id == id).FirstOrDefault();
 
             basket.CountProduct.Remove(count);
             db.SaveChanges();
             db.Count.Remove(count);
-            //   basket.Products.Remove(prod);
             db.SaveChanges();
             if (basket.CountProduct.ToList().Count == 0)
             {
                 return RedirectToAction("ViewBasket", new { idBasket = basket.Id });
             }
-            return View("AddCount", basket.CountProduct.ToList());            
-            //return View("AddProduct", basket.CountProduct.ToList());
+            return View("AddCount", basket.CountProduct.ToList());
         }
-        
-        //public async Task<ActionResult> ChengeQuantity(int? id, bool flag)
+        //public async Task<ActionResult> Order()
         //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-
         //    string userName = HttpContext.User.Identity.Name;
         //    var user = db.Users.Where(i => i.UserName == userName).FirstOrDefault();
-
         //    var basket = db.Basket.Where(b => b.User.Id == user.Id).FirstOrDefault();
+        //    db.Orders.Add(new Order { Time = DateTime.Now, Status ="хз",User=user, Products = basket.CountProduct});
 
-        //    if (flag)
-        //        basket.CountProduct.Where(i => i.IdProduct == id).FirstOrDefault().CountProduct--;
-        //    else if (basket.CountProduct.Where(i => i.IdProduct == id).FirstOrDefault().CountProduct < db.Products.Where(i => i.Id == id).FirstOrDefault().Count)
-        //        basket.CountProduct.Where(i => i.IdProduct == id).FirstOrDefault().CountProduct++;
-
-        //    if (basket.CountProduct.Where(i => i.IdProduct == id).FirstOrDefault().CountProduct == 0)
-        //        return RedirectToAction("DeleteProduct", "Baskets", new { @id = id });
-
+        //  //  basket.Products = new List<Product>();
+        //    basket.CountProduct = new List<Count>();
         //    db.SaveChanges();
-        //    List<CartLine> list = new List<CartLine>();
-        //    int temp = 0;
-        //    foreach (var item in basket.CountProduct)
-        //    {
-        //        temp += db.Products.Where(i => i.Id == item.IdProduct).FirstOrDefault().Price * item.CountProduct;
-        //        list.Add(new CartLine { Product = db.Products.Where(i => i.Id == item.Id).FirstOrDefault(), Quantity = item.CountProduct });
-        //    }
-        //    ViewBag.List = list;
-        //    ViewBag.Price = temp;
-        //    return View("AddProduct", list);
+
+        //    return RedirectToAction("Index","Home");
         //}
-        public async Task<ActionResult> Order()
-        {
-            string userName = HttpContext.User.Identity.Name;
-            var user = db.Users.Where(i => i.UserName == userName).FirstOrDefault();
-            var basket = db.Basket.Where(b => b.User.Id == user.Id).FirstOrDefault();
-            db.Orders.Add(new Order { Time = DateTime.Now, Status ="хз",User=user, Products = basket.CountProduct});
-
-          //  basket.Products = new List<Product>();
-            basket.CountProduct = new List<Count>();
-            db.SaveChanges();
-
-            return RedirectToAction("Index","Home");
-        }
     }
 }

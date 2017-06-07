@@ -57,6 +57,26 @@
     </table>
 </div>
 
+<div>
+    @using (Html.BeginForm("CreateOrder", "Orders", FormMethod.Post))
+    {
+        @Html.Hidden("idBasket", (int)ViewBag.idBasket);
+        <label>Имя</label>
+        <input type="text" name="Name" />
+        <label>Фамилия</label>
+        <input type="text" name="SurName" />
+        <label>Email</label>
+        <input type="email" name="Email" />
+        <label>Телефон</label>
+        <input type="tel" name="Telephone"/>
+        <label>Адрес</label>
+        <input type="text" name="Adress" />
+        <label>Комментарий</label>
+        <input type="text" name="Comment"/>
+        <input type="submit" value="Оформить заказ" />
+    }
+</div>
+
 <script>
     function Add(current, max, idCount) {
         if (current <= max && current > 0) {
