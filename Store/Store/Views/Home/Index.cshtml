@@ -2,30 +2,43 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<div class="row" width="100%">
+    <div class="col-md-2">
+        @if (ViewBag.HeadingsList != null)
+            {
+                foreach (var item in ViewBag.HeadingsList)
+                {
+                <ul>
+                    <li>
+                        <div>@Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = (int)item.Id }, null)</div>
+                    </li>
+                </ul>
+            }
+        }
+    </div>
+    <div class="col-md-6">
+            <h2>Приветствуем Вас в интернет-магазине <strong>&quot;ЭКО-ЛАВКА&quot;</strong><b>&nbsp;</b></h2>
+            <span style="color: rgb(0, 0, 0);"><span style="font-size: larger;">Мы очень рады Вам и предлагаем широкий выбор экологических товаров:</span></span>
+            <ul>
+                <li>Ароматные, высокого качества специи и пряности.</li>
+                <li>Травы, фиточаи из экологически чистых районов Карпат, которые помимо лечебных свойств имеют великолепный вкус и аромат. &nbsp;</li>
+                <li>Натуральные эфирные масла - эффективные и нетоксичные природные средства, польза от которых для человека проверена тысячилетиями.</li>
+                <li>Натуральная косметика - это лучший выбор для сохранения Вашей красоты и молодости.&nbsp;</li>
+                <li>Средства для волос - шампуни без лаурилсульфата, маски, бальзамы, краски для волос на основе индийской хны, вернут вашим волосам блеск и здоровье.</li>
+                <li>Экологически чистые стиральные порошки без фосфатов, мыльные орехи,моющие средства для посуды и уборки в доме, натуральное мыло ручной работы, дезодорант &quot;Кристалл&quot;, товары для детей.</li>
+            </ul>
+            <span style="color: rgb(0, 0, 0);"><span style="font-size: larger;">Приятных Вам покупок!</span></span>
+            
+    </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-1 col-md-offset-1">
+        <form method="post" action="/Home/SearchProducts">
+            <table>
+                <tr>
+                    <td><input type="text" name="ProdName" /> </td>
+                    <td><input type="submit" value="Поиск" /> </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>

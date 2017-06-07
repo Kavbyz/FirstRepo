@@ -3,113 +3,19 @@
 <html>
 <head>
     <style>
-
-
-
-        .print, #VotingForm {
-            display: none;
-        }
-
-
-
-        .button::before {
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            -webkit-box-shadow: #959595 0 2px 5px;
-            -moz-box-shadow: #959595 0 2px 5px;
-            border-radius: 3px;
-            box-shadow: #959595 0 2px 5px;
-            content: "";
-            display: block;
-            height: 100%;
-            left: 0;
-            padding: 2px 0 0;
-            position: absolute;
-            top: 0;
-            width: 100%;
-        }
-
-        .button:active::before {
-            padding: 1px 0 0;
-        }
-
-        /**
- * Grey
- */
-        .button {
-            -moz-box-shadow: inset 0 0 0 1px #63ad0d;
-            -webkit-box-shadow: inset 0 0 0 1px #63ad0d;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            background: #eee;
-            background: -webkit-gradient(linear, 0 0, 0 bottom, from(#eee), to(#e2e2e2));
-            background: -moz-linear-gradient(#eee, #e2e2e2);
-            background: linear-gradient(#eee, #e2e2e2);
-            border: solid 1px #d0d0d0;
-            border-bottom: solid 3px #b2b1b1;
-            border-radius: 3px;
-            box-shadow: inset 0 0 0 1px #f5f5f5;
-            color: #555;
-            display: inline-block;
-            font: bold 12px Arial, Helvetica, Clean, sans-serif;
-            margin: 0 25px 25px 0;
-            padding: 10px 20px;
+        .content {
+            width: 1100px;
+            margin: 0 auto;
             position: relative;
-            text-align: center;
-            text-decoration: none;
-            text-shadow: 0 1px 0 #fafafa;
+            background-color: #f9f8f5;
+            background: -webkit-linear-gradient(top,#f9f8f5,#f6f3ec);
+            background: -moz-linear-gradient(top,#f9f8f5,#f6f3ec);
+            background: -ms-linear-gradient(top,#f9f8f5,#f6f3ec);
+            background: -o-linear-gradient(top,#f9f8f5,#f6f3ec);
+            background: linear-gradient(top,#f9f8f5,#f6f3ec);
         }
-
-            .button:hover {
-                background: #e4e4e4;
-                background: -webkit-gradient(linear, 0 0, 0 bottom, from(#e4e4e4), to(#ededed));
-                background: -moz-linear-gradient(#e4e4e4, #ededed);
-                background: linear-gradient(#e4e4e4, #ededed);
-                border: solid 1px #c2c2c2;
-                border-bottom: solid 3px #b2b1b1;
-                box-shadow: inset 0 0 0 1px #efefef;
-            }
-
-            .button:active {
-                background: #dfdfdf;
-                background: -webkit-gradient(linear, 0 0, 0 bottom, from(#dfdfdf), to(#e3e3e3));
-                background: -moz-linear-gradient(#dfdfdf, #e3e3e3);
-                background: linear-gradient(#dfdfdf, #e3e3e3);
-                border: solid 1px #959595;
-                box-shadow: inset 0 10px 15px 0 #c4c4c4;
-                top: 2px;
-            }
-        .button.xbox {
-            background: #c4e125;
-            background: -webkit-gradient(linear, 0 0, 0 bottom, from(#c4e125), to(#88a819));
-            background: -moz-linear-gradient(#c4e125, #88a819);
-            background: linear-gradient(#c4e125, #88a819);
-            border: solid 1px #829c15;
-            border-bottom: solid 3px #819d15;
-            box-shadow: inset 0 0 0 1px #c6da7b;
-            color: #fff;
-            text-shadow: 0 1px 0 #819d15;
-        }
-
-            .button.xbox:hover {
-                background: #88a819;
-                background: -webkit-gradient(linear, 0 0, 0 bottom, from(#88a819), to(#c4e125));
-                background: -moz-linear-gradient(#88a819, #c4e125);
-                background: linear-gradient(#88a819, #c4e125);
-                border: solid 1px #829c15;
-                border-bottom: solid 3px #819d15;
-                box-shadow: inset 0 0 0 1px #c6da7b;
-            }
-
-            a.button.xbox:active {
-                background: #88a819;
-                background: -webkit-gradient(linear, 0 0, 0 bottom, from(#88a819), to(#c4e125));
-                background: -moz-linear-gradient(#88a819, #c4e125);
-                background: linear-gradient(#88a819, #c4e125);
-                border: solid 1px #829c15;
-                box-shadow: inset 0 10px 15px 0 #819d15;
-            }
     </style>
+    
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,68 +24,46 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Оплата и Доставка", "PaymentAndDelivery", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Левый блок</h2>
-            <p>................</p>
-        </div>
-        <div class="col-md-4 col-md-offset-4">
-            <h2>Правый блок</h2>
-            <p>................</p>
-        </div>
-    </div>
-    <form method="post" action="/Home/SearchProducts">
-        <table>
-            <tr>
-                <td><p>Поиск </p></td>
-                <td><input type="text" name="ProdName" /> </td>
-                <td><input type="submit" value="Отправить" class="xbox"/> </td>
-            </tr>
-        </table>
-    </form>
-
-@if (ViewBag.HeadingsList != null)
-{
-    foreach (var item in ViewBag.HeadingsList)
-    {
-        <table class="table">
-            <tr>
-                <div class="button xbox" >@Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = (int)item.Id }, null)</div>
-            </tr>
-        </table>
-    }
-}
-                <div class="container body-content">
-                    @RenderBody()
-                    <hr />
-                    <footer>
-                        <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-                    </footer>
+    <div class="content">
+        <div class="navbar navbar-inverse navbar-fixed-top content">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                 </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="content">
+                <a href="@Url.Action("Index", "Home")" class="button">
+                    <span>Домашняя страница</span>
+                </a>
+                <a href="@Url.Action("Contact", "Home")" class="button">
+                    <span>Контакты</span>
+                </a>
+                <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
+                    <span>Оплата и Доставка</span>
+                </a>
+                <a href="@Url.Action("AddProduct", "Baskets")">
+                    <span>Корзина</span>
+                </a>
+       </div>
+            <div >
+                @RenderBody()
+                <hr />
+                <footer>
+                </footer>
+            </div>
 
 
-                @Scripts.Render("~/bundles/jquery")
-                @Scripts.Render("~/bundles/bootstrap")
-                @RenderSection("scripts", required: false)
-    </body>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+        </div>
+</body>
 </html>
