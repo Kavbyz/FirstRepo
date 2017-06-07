@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
 <h2>AddProduct</h2>
 
 @if (ViewBag.Message != null)
@@ -14,31 +18,98 @@
     </p>
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Product.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CountProduct)
-        </th>        
-        <th></th>
-    </tr>
+<div id="table">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountProduct)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CountProduct)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "DeleteProduct", new { id=item.Id })
-        </td>
-    </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr id="@((string)"tr"+@item.Id.ToString())">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    <button onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
+                    <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
+                    <button onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
+                </td>
+                <td><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
+                <td>
+                    @Ajax.ActionLink("Delete", "DeleteProduct", new { id=@item.Id }, new AjaxOptions{ UpdateTargetId="table"})
+                </td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td id="Total">@ViewBag.Total</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
 
-</table>
+<div>
+    @using (Html.BeginForm("CreateOrder", "Orders", FormMethod.Post))
+    {
+        @Html.Hidden("idBasket", (int)ViewBag.idBasket);
+        <label>Имя</label>
+        <input type="text" name="Name" />
+        <label>Фамилия</label>
+        <input type="text" name="SurName" />
+        <label>Email</label>
+        <input type="email" name="Email" />
+        <label>Телефон</label>
+        <input type="tel" name="Telephone"/>
+        <label>Адрес</label>
+        <input type="text" name="Adress" />
+        <label>Комментарий</label>
+        <input type="text" name="Comment"/>
+        <input type="submit" value="Оформить заказ" />
+    }
+</div>
+
+<script>
+    function Add(current, max, idCount) {
+        if (current <= max && current > 0) {
+            var data = new FormData();
+            data.append("count", current);
+            data.append("idCount", idCount);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddCount", "Baskets")',
+                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                data: data,
+                success: function (result) {
+                    $("#table").html(result);
+                },
+                error: function (xhr, status, p3) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+        else if (current > max && current > 0)
+        {
+            $("#Count" + idCount).val(max);
+            Add(max, max, idCount);
+        }
+        else if (current <= max && current < 1)
+        {
+            $("#Count" + idCount).val(1);
+            Add(1, max, idCount);
+        }
+    }
+    $(document).ready(function () {
+
+    });
+</script>
+
