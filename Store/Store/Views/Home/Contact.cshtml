@@ -1,17 +1,44 @@
-﻿@{
-    ViewBag.Title = "Contact";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿<div class="row">
+    <div class="col-md-2">
+        @if (ViewBag.HeadingsList != null)
+            {
+                foreach (var item in ViewBag.HeadingsList)
+                {
+                <ul>
+                    <li>
+                        <div>@Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = (int)item.Id }, null)</div>
+                    </li>
+                </ul>
+            }
+        }
+    </div>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    <div class="col-md-6">
+        <h1 class="cat_title page_title">Контакты</h1>
+        <div class="page_content cat_descr">
+            <span style="font-size: larger;"><strong>Адрес магазина &quot;ЭКО-ЛАВКА&quot;:</strong>&nbsp; </span><span style="font-size: larger;">г. Черкассы, ул. Фрунзе 25 (перекресток ул. Смелянская-ул. Фрунзе возле гостинницы &quot;Россава&quot;)&nbsp;</span><span style="font-size: larger;">
+                <br>
+                <br>
+                <strong>Время работы: &nbsp;</strong>Пн.-Сб. с 9:30 до 17:30&nbsp; <br>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong>
+                    <br>
+                    Email:
+                </strong>&nbsp;info@eco-lavka.ck.ua<br>
+                <br>
+                <strong>Тел.</strong>&nbsp; &nbsp;(097)&nbsp;00-513-00<br>
+            </span>
+            <div><span style="font-size: larger;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (095)   00-513-00</span></div>
+            <div><span style="font-size: larger;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (073)   00-513-00</span></div>
+        </div>
+    </div>
+    <div class="col-md-1 col-md-offset-1">
+        <form method="post" action="/Home/SearchProducts">
+            <table>
+                <tr>
+                    <td><input type="text" name="ProdName" /> </td>
+                    <td><input type="submit" value="Поиск" /> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
