@@ -125,7 +125,7 @@ namespace Store.Controllers
                 total += item.CountProduct * item.Product.Price;
             }
             ViewBag.Total = total;
-            return View(basket.CountProduct.ToList());
+            return PartialView(basket.CountProduct.ToList());
         }
 
         // GET: Baskets
@@ -252,7 +252,7 @@ namespace Store.Controllers
             db.SaveChanges();
             db.Count.Remove(count);
             db.SaveChanges();
-            return View("AddCount", basket.CountProduct.ToList());
+            return PartialView("AddCount", basket.CountProduct.ToList());
         }
         //public async Task<ActionResult> Order()
         //{
