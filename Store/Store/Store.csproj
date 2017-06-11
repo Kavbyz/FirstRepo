@@ -300,7 +300,6 @@
     <Content Include="Views\Baskets\Index.cshtml" />
     <Content Include="Views\Products\SendComment.cshtml" />
     <Content Include="Views\Baskets\AddProduct.cshtml" />
-    <Content Include="Views\Products\SendComment.cshtml" />
     <Content Include="Views\Home\SearchProducts.cshtml" />
     <Content Include="Views\Baskets\AddCount.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
@@ -309,6 +308,8 @@
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\OrderSuccess.cshtml" />
+    <Content Include="Views\Orders\Orders.cshtml" />
+    <Content Include="Views\Orders\ShowOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

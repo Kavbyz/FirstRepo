@@ -63,17 +63,17 @@ namespace Store.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
 
-            var userId = UserId;
+            string userId = UserId;
             var model = new IndexViewModel
             {
-                HasPassword = HasPassword(),
+                HasPassword = HasPassword(userId),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             ViewBag.User = UserManager.FindById(UserId);
-            if(UserManager.FindById(User.Identity.GetUserId()).Roles.Where(a=> HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count>0&&UserId== User.Identity.GetUserId())
+            if(User.IsInRole("Admin"))
             {
                 ViewBag.isAdmin = 1;
             }
@@ -109,7 +109,7 @@ namespace Store.Controllers
         public ActionResult AddPhoneNumber(string UserId)
         {
             ViewBag.userId = UserId;
-            if (UserManager.FindById(UserId).Roles.Where(a => HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count > 0)
+            if (User.IsInRole("Admin"))
             {
                 ViewBag.isAdmin = 1;
             }
@@ -141,14 +141,14 @@ namespace Store.Controllers
 
             if(Role=="Admin")
             {
-                if (UserManager.FindById(UserId).Roles.Where(a => HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count < 1)
+                if (User.IsInRole("Admin")!=false)
                 {
                     UserManager.AddToRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);                    
                 }
             }
             else if(Role=="User")
             {
-                if (UserManager.FindById(UserId).Roles.Where(a => HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindById(a.RoleId).Name == "Admin").ToList().Count > 0)
+                if (User.IsInRole("Admin"))
                 {
                     UserManager.RemoveFromRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);
                 }
@@ -385,9 +385,9 @@ namespace Store.Controllers
             }
         }
 
-        private bool HasPassword()
+        private bool HasPassword(string userId)
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = UserManager.FindById(userId);
             if (user != null)
             {
                 return user.PasswordHash != null;
