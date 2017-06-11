@@ -252,10 +252,6 @@ namespace Store.Controllers
             db.SaveChanges();
             db.Count.Remove(count);
             db.SaveChanges();
-            //if (basket.CountProduct.ToList().Count == 0)
-            //{
-            //    return RedirectToAction("ViewBasket", new { idBasket = basket.Id });
-            //}
             return View("AddCount", basket.CountProduct.ToList());
         }
         //public async Task<ActionResult> Order()
