@@ -39,6 +39,12 @@
         <td>
             @Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = item.Id }, null)
         </td>
+        @if(Request.Cookies["AddProductOrder"]!=null)
+        {
+            <td>
+                @Html.ActionLink("Добавить в Заказ", "AddProductInOrder", "Orders", new { id = item.Id }, null)
+            </td>
+        }
     </tr>
 }
 
