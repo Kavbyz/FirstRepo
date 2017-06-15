@@ -2,21 +2,23 @@
 
 <table class="table">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Commen_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comment_Text)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Commen_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment_Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
+            </td>
+        </tr>
+    }
 
 </table>
+

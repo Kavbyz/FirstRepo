@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+<h2>Orders</h2>
+
+@using (Html.BeginForm("OrderSearchId", "Orders", FormMethod.Post))
+{
+    @if (ViewBag.msg != null)
+    {
+        <label id="lSearchId">@((string)ViewBag.msg)</label>
+    }
+    <p>
+        Поиск заказа по Id
+        <input type="text" name="Id" id="Id"/>
+        <br />
+        <input type="submit" value="Открыть" id="Open"/>
+    </p>
+}
+<br />
+@using (Html.BeginForm("OrderSearchName", "Orders", FormMethod.Post))
+{
+    if (ViewBag.msgName != null)
+    {
+        <label>@((string)ViewBag.msgName)</label>
+    }
+    <p>
+        Поиск заказа по Имени
+        <input type="text" name="Name" id="Name"/>
+        <input type="text" name="SurName" id="SurName" />       
+        <br />
+        <input type="submit" value="Найти"/>
+    </p>
+}
+<br />
+@Html.ActionLink("Новые заказы", "NewOrders")
+<br />
+@Html.ActionLink("Все Заказы", "AllOrders")
+<br />
+<script>
+    @*function SearchId(value)
+    {
+        var data = new FormData();
+        data.append("Id", value);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SearchId", "Orders")',
+            contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+            processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+            data: data,
+            success: function (result) {
+                if (result == "Find")
+                {
+                    $("#Open").show();
+                }                    
+                else if (result == "NoFind")
+                    $("#Open").hide();
+            },
+            error: function (xhr, status, p3) {
+                alert(xhr.responseText);
+            }
+        });
+    }*@
+</script>

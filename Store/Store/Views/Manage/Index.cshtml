@@ -32,11 +32,11 @@
             <dd>@Html.ActionLink("Изменить Данные Пользователя", "AddPhoneNumber", routeValues: new { UserId=@ViewBag.User.Id })</dd>
             if (@ViewBag.isAdmin == 1)
             {
-
-                @Html.ActionLink("Список пользователей", "Index", "Account")
-                @Html.ActionLink("Добавить товар", "Create", "Products")
+                <dd>@Html.ActionLink("Список пользователей", "Index", "Account")</dd>
+                <dd>@Html.ActionLink("Добавить товар", "Create", "Products")</dd>
+                <dd>@Html.ActionLink("Заказы", "Orders", "Orders")</dd>
             }
-        }        
+        }
         @*<dt>Внешние имена входа:</dt>
             <dd>
                 @Model.Logins.Count [

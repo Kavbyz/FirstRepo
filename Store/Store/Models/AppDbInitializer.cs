@@ -64,13 +64,35 @@ namespace Store.Models
                 userManager.AddToRole(admin.Id, role2.Name);
             }
 
-            Comment comment = new Comment();
-            comment.Commen_Name = "qwerty";
-            comment.Comment_Text = "asdfgh";
-            comment.Product = prod;
-            comment.Date = DateTime.Now;
-            context.Comments.Add(comment);
+            Order order = new Order();
+            order.Adress = "123";
+            order.Comment = "123";
+            order.Delivery = "123";
+            order.Email = "123";
+            order.Name = "123";
+            order.Status = "New";
+            order.SurName = "123";
+            order.Telephone = "123";
+            order.Time = DateTime.Now;
+            context.Orders.Add(order);
             context.SaveChanges();
+
+            Count count = new Count();
+            count.CountProduct = 1;
+            count.Product = prod;
+            count.Order = order;
+            context.Count.Add(count);
+            context.SaveChanges();
+
+            
+
+            //Comment comment = new Comment();
+            //comment.Commen_Name = "qwerty";
+            //comment.Comment_Text = "asdfgh";
+            //comment.Product = prod;
+            //comment.Date = DateTime.Now;
+            //context.Comments.Add(comment);
+            //context.SaveChanges();
 
             //Basket basket = new Basket();
             //basket.User = admin;

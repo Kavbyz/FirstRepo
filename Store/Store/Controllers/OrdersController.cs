@@ -34,6 +34,59 @@ namespace Store.Controllers
             return View("OrderSuccess");
         }
 
+        [HttpPost]
+        public async Task<JsonResult> SearchId()
+        {
+            int id = Int32.Parse(Request.Form.GetValues("Id").FirstOrDefault().ToString());
+            if(db.Orders.Find(id)!=null)
+            {
+                return Json("Find");
+            }
+            else
+            {
+                return Json("NoFind");
+            }
+            
+        }
+
+        public async Task<ActionResult> Orders()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OrderSearchId(string Id)
+        {
+            if(db.Orders.Find(Int32.Parse(Id))==null)
+            {
+                ViewBag.msg = "Такого заказа несуществует!";
+                return View("Orders");
+            }
+            return RedirectToAction("Edit", new { id=Int32.Parse(Id) });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OrderSearchName(string Name, string SurName)
+        {
+            if (db.Orders.Where(a=>a.Name==Name&&a.SurName==SurName).ToList().Count>0)
+            {
+                return View("ShowOrders", db.Orders.Where(a => a.Name == Name && a.SurName == SurName).ToList());
+            }
+            ViewBag.msgName = "Такого заказа несуществует!";
+            return View("Orders");
+        }
+
+
+        public async Task<ActionResult> NewOrders()
+        {
+            return View("ShowOrders", db.Orders.Where(a => a.Status=="New").ToList());
+        }
+
+        public async Task<ActionResult> AllOrders()
+        {
+            return View("ShowOrders", db.Orders.ToList());
+        }
+
         // GET: Orders
         public async Task<ActionResult> Index()
         {
