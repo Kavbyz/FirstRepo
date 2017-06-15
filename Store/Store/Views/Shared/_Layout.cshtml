@@ -17,7 +17,7 @@
             background: linear-gradient(top,#f9f8f5,#f6f3ec);
 
         }
-        .footer_back {
+        footer.footer_back {
             background-image: url('Images/footer.png');
             background-attachment: scroll;
             background-position: repeat-x;
@@ -58,9 +58,7 @@
             <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
                 <span>Оплата и Доставка</span>
             </a>
-            <a href="@Url.Action("ViewBasket", "Baskets")" class="button">
-                <span>Корзина</span>
-            </a>
+            @Html.ActionLink("Корзина", "Basket", "Baskets", null, new { @class = "button" })
         </div>
         <div>
             @RenderBody()
@@ -69,34 +67,14 @@
         </div>
 
         <footer class="footer_back">
-            <div class="row">
-                </br>
-                <div class="col-md-3 col-md-offset-1">
-                    <div>Эко-Лавка</div>
+            </br>
+                <div class="col-md-3">Эко-Лавка
                     <div><small>(097) </small>  <span>00-513-00</span></div>
                     <div><small>(095) </small>  <span>00-513-00</span></div>
                     <div><small>(073) </small>  <span>00-513-00</span></div>
-                </div>
-                <a href="@Url.Action("Index", "Home")" class="button">
-                    <span>Домашняя страница</span>
-                </a>
-                <a href="@Url.Action("Contact", "Home")" class="button">
-                    <span>Контакты</span>
-                </a>
-                <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
-                    <span>Оплата и Доставка</span>
-                </a>
-            @Html.ActionLink("Корзина", "Basket", "Baskets", null, new { @class = "button" })
+                </div><!--phones-->
 
-       </div>
-            <div >
-                @RenderBody()
-                <hr />
-                <footer>
-                </footer>
-            </div>
-
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="title">Время работы</div>
                     <p>Пн.- Сб.</p>
                     <p>с 9:30 до 17:30</p>
@@ -113,8 +91,7 @@
                     Бердянск, Ужгород, Алчевск, Павлоград, Лисичанск, Каменец-Подольский.
                 </div>
 
-            </div>
-        </footer>
+            </footer>
     </div>
             @Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")

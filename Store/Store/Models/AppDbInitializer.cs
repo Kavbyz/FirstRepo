@@ -31,16 +31,44 @@ namespace Store.Models
             List<Headings> h = new List<Headings>();
             h.Add(heading);
             prod.Headings = h;
+            List<Headings> h1 = new List<Headings>();
+            h1.Add(heading1);
+            prod.Headings = h;
 
             Product prod2 = new Product();
-            prod2.Description = "htyrjkrty";
+            prod2.Description = "htyrjhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtykrty";
             prod2.Count = 22;
             prod2.Price = 2352;
             prod2.Name = ",yu234tyier235gr";
-            prod2.Headings = h;            
+            prod2.Headings = h;
+
+            Product prod3 = new Product();
+            prod3.Description = "jtyjtyjy";
+            prod3.Count = 22;
+            prod3.Price = 2352;
+            prod3.Name = ",,gh,jkghuyk";
+            prod3.Headings = h1;
+
+            Product prod4 = new Product();
+            prod4.Description = "htyrjkrty";
+            prod4.Count = 22;
+            prod4.Price = 2352;
+            prod4.Name = ",cvxcsdcs";
+            prod4.Headings = h;
+
+            Product prod5 = new Product();
+            prod5.Description = "htyrjkrty";
+            prod5.Count = 22;
+            prod5.Price = 2352;
+            prod5.Name = ",2346346346";
+            prod5.Headings = h1;
+
 
             context.Products.Add(prod);
             context.Products.Add(prod2);
+            context.Products.Add(prod3);
+            context.Products.Add(prod4);
+            context.Products.Add(prod5);
             context.SaveChanges();
 
             Images img = new Images();
@@ -53,6 +81,24 @@ namespace Store.Models
             img1.Path = "/Images/Lazy.jpg";
             img1.Product = prod2;
             context.Images.Add(img1);
+            context.SaveChanges();
+
+            Images img2 = new Images();
+            img.Path = "/Images/noavatar.png";
+            img.Product = prod3;
+            context.Images.Add(img);
+            context.SaveChanges();
+
+            Images img3 = new Images();
+            img.Path = "/Images/noavatar.png";
+            img.Product = prod4;
+            context.Images.Add(img);
+            context.SaveChanges();
+
+            Images img4 = new Images();
+            img.Path = "/Images/noavatar.png";
+            img.Product = prod5;
+            context.Images.Add(img);
             context.SaveChanges();
 
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));

@@ -1,85 +1,68 @@
 ﻿@model IEnumerable<Store.Models.Product>
-
-<p>
-    @Html.ActionLink("От Дорогих к дешевым", "SearchProducts", "Headings", new { temp = 1, id = ViewBag.HeadingId }, null)
-    @Html.ActionLink("От Дешевых к дорогим", "SearchProducts", "Headings", new { temp = 2, id = ViewBag.HeadingId }, null)
-    @Html.ActionLink("По популярности", "SearchProducts", "Headings", new { temp = 3, id = ViewBag.HeadingId }, null)
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Count)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <img src="@item.Images.ToList()[0].Path" height="200" width="200"/>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Count)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = item.Id }, null)
-        </td>
-        @if(Request.Cookies["AddProductOrder"]!=null)
-        {
-            <td>
-                @Html.ActionLink("Добавить в Заказ", "AddProductInOrder", "Orders", new { id = item.Id }, null)
-            </td>
-        }
-    </tr>
-}*@
-    <div class="col-md-2 class="content">
-        <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button">
-            <span>All Products</span>
-        </a>
-        @if (ViewBag.HeadingsList != null)
+<div class="content">
+    <div class="row">
+        <div class="col-md-2 class="content">
+            <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button">
+                <span>All Products</span>
+            </a>
+            @if (ViewBag.HeadingsList != null)
             {
                 foreach (var item in ViewBag.HeadingsList)
                 {
-                <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
-                    <span>@item.Name</span>
-                </a>
+                    <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
+                        <span>@item.Name</span>
+                    </a>
+                }
             }
-        }
-    </div>
-    @foreach (var item in Model)
-    {
-        <div style="margin-top:20px; overflow:hiden" class="div_list_element">
-            <form method="get" action="index1.php">
-                <input type="submit" value="@item.Name" style="margin-top:5px;"></input>
-            </form>
-            <div>
-                <p style="margin-top:-10px;">Цена: @item.Price грн<p>
-            </div>
-           @*<img src="@item.Images.ElementAt(0)" />*@
-            <div>
-                <p style="margin-top:0px;">Описание:</p>
-                <p style="margin-top:-10px;">@item.Description</p>
-            </div>
         </div>
-    }
+        <p>
+            @Html.ActionLink("От Дорогих к дешевым", "SearchProducts", "Headings", new { temp = 1, id = ViewBag.HeadingId }, null)
+            @Html.ActionLink("От Дешевых к дорогим", "SearchProducts", "Headings", new { temp = 2, id = ViewBag.HeadingId }, null)
+            @Html.ActionLink("По популярности", "SearchProducts", "Headings", new { temp = 3, id = ViewBag.HeadingId }, null)
+        </p>
+        <div class="content col-md-7">
+                @foreach (var item in Model)
+            {
+                    <div style="display:inline-block;text-align:center;">
+                        <div>
+                            <a href="@Url.Action("ShowProduct", "Headings", new { id = @item.Id })"><img src="@item.Images.ToList()[0].Path" height="200" width="200" /></a>
+                        </div>
+                        <div>
+                            <p>Name: @Html.DisplayFor(modelItem => item.Name)</p>
+                        </div>
+                        <div>
+                            <p>Count: @Html.DisplayFor(modelItem => item.Count)</p>
+                        </div>
+                        <div>
+                            <p>Price: @Html.DisplayFor(modelItem => item.Price)</p>
+                        </div>
+                        <div>
+                            <p style="overflow: hidden; text-overflow: ellipsis;width:200px;text-align:center;">
+                              Description:  @item.Description
+                            </p>
+                        </div>
+                        <div>
+                            @Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = item.Id }, null)
+                        </div>
+                        @if (Request.Cookies["AddProductOrder"] != null)
+                {
+                            <div>
+                                @Html.ActionLink("Добавить в Заказ", "AddProductInOrder", "Orders", new { id = item.Id }, null)
+                            </div>
+                        }
+                    </div>
+                }
+        </div>
+        <div class="col-md-1">
+            <form method="post" action="/Home/SearchProducts">
+                <table>
+                    <tr>
+                        <td><input type="text" name="ProdName" /> </td>
+                        <td><input type="submit" value="Поиск" /> </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 
-</table>
+</div>

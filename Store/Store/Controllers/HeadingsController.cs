@@ -133,30 +133,34 @@ namespace Store.Controllers
             {
                 return HttpNotFound();
             }
-            if (id == -1)
+            ViewBag.HeadingsList = db.Headings.ToList();
+            var M = db.Products.ToList();
+
+            if (id != -1)
             {
-                var M = db.Products.ToList();
-                return View(M);
+                M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList();
             }
 
             ViewBag.HeadingId = id;
             if (temp == 1)
             {
-                var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).OrderByDescending(t => t.Price).ToList();
-                return View(M);
+                M = M.OrderByDescending(t => t.Price).ToList();
             }
             if (temp == 2)
             {
-                var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).OrderBy(t => t.Price).ToList();
-                return View(M);
+                M = M.OrderBy(t => t.Price).ToList();
             }
             //if (temp == 3)
             //{
             //    var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList().OrderBy(t => t.Price); // По популярности
             //    return View(M);
             //}
-            var P = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList();
-            return View(P);
+            return View(M);
         }
+        public async Task<ActionResult> ShowProduct(int? id)
+        {
+            ViewBag.HeadingsList = db.Headings.ToList();
+            return View("SearchProducts", await db.Products.Where(i => i.Id == id).ToListAsync());
         }
+    }
 }

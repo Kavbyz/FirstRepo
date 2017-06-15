@@ -82,6 +82,8 @@ namespace Store.Controllers
             ViewBag.HeadingsList = db.Headings.ToList();
             return View(await db.Products.ToListAsync());
         }
+        
+        
 
         // GET: Products/Details/5
         public async Task<ActionResult> Details(int? id)

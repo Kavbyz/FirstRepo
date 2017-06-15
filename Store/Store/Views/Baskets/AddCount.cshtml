@@ -21,6 +21,9 @@
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
             <td>
+                <img src="@item.Product.Images.ToList()[0].Path" height="200" width="200" />
+            </td>
+            <td>
                 <button type="button" onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
                 <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
                 <button type="button" onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>

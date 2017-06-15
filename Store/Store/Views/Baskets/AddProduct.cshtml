@@ -9,7 +9,6 @@
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 
-<h2>AddProduct</h2>
 
 @if (ViewBag.Message != null)
 {
@@ -38,6 +37,9 @@
                     @Html.DisplayFor(modelItem => item.Product.Name)
                 </td>
                 <td>
+                    <img src="@item.Product.Images.ToList()[0].Path" height="200" width="200" />
+                </td>
+                <td>
                     <button type="button" onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
                     <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
                     <button type="button" onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
@@ -60,22 +62,36 @@
 <div>
     @using (Html.BeginForm("CreateOrder", "Orders", FormMethod.Post))
     {
-        @Html.Hidden("idBasket", (int)ViewBag.idBasket);
-        <label>Имя</label>
-        <input type="text" name="Name" />
-        <label>Фамилия</label>
-        <input type="text" name="SurName" />
-        <label>Email</label>
-        <input type="email" name="Email" />
-        <label>Телефон</label>
-        <input type="tel" name="Telephone"/>
-        <label>Адрес</label>
-        <input type="text" name="Adress" />
-        <label>Комментарий</label>
-        <input type="text" name="Comment"/>
-        <input type="submit" value="Оформить заказ" />
+        @Html.Hidden("idBasket", (int)ViewBag.idBasket)
+        <div>
+            <label>Имя</label>
+            <input type="text" name="Name" />
+        </div>
+        <div>
+            <label>Фамилия</label>
+            <input type="text" name="SurName" />
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" name="Email" />
+            </div>
+            <div>
+                <label>Телефон</label>
+                <input type="tel" name="Telephone" />
+            </div>
+            <div>
+                <label>Адрес</label>
+                <input type="text" name="Adress" />
+            </div>
+            <div>
+                <label>Комментарий</label>
+                <input type="text" name="Comment" />
+            </div>
+            <div>
+                <input type="submit" value="Оформить заказ" />
+            </div>
     }
-</div>
+                            </div>
 
 <script>
     function Add(current, max, idCount) {
