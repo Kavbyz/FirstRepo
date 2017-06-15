@@ -84,8 +84,24 @@
         </dd>
 
     </dl>
+
+    <table class="table">
+        @foreach(var item in Model.Count)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.CountProduct</td>
+                <td>@(item.CountProduct*item.Product.Price)</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>@ViewBag.Total</td>
+        </tr>
+    </table>
 </div>
-<p>
+@*<p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

@@ -202,8 +202,12 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Удалить", "Delete", new { id = Model.Id })
 </div>
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
 
 <script>
     function Add(current, max, idCount) {

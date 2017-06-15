@@ -16,6 +16,43 @@ namespace Store.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public async Task<ActionResult> Cancel(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Order order = await db.Orders.FindAsync(id);
+            int total = 0;
+            foreach (var item in order.Count)
+            {
+                total += item.CountProduct * item.Product.Price;
+            }
+            ViewBag.Total = total;
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            return View(order);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Cancel(int id)
+        {
+            Order order = await db.Orders.FindAsync(id);
+            order.Status = "Отменен";
+            db.Entry(order).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            return RedirectToAction("Orders");
+        }
+
+        public async Task<ActionResult> MyOrders()
+        {
+            String UserId = User.Identity.GetUserId();
+            return View("ShowOrders", db.Orders.Where(a => a.User.Id == UserId).ToList());
+        }
+
         public async Task<ActionResult> AddOrder()
         {
             Order order = new Order();
@@ -160,6 +197,12 @@ namespace Store.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Order order = await db.Orders.FindAsync(id);
+            int total = 0;
+            foreach (var item in order.Count)
+            {
+                total += item.CountProduct * item.Product.Price;
+            }
+            ViewBag.Total = total;
             if (order == null)
             {
                 return HttpNotFound();
@@ -240,6 +283,12 @@ namespace Store.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Order order = await db.Orders.FindAsync(id);
+            int total = 0;
+            foreach (var item in order.Count)
+            {
+                total += item.CountProduct * item.Product.Price;
+            }
+            ViewBag.Total = total;
             if (order == null)
             {
                 return HttpNotFound();
@@ -253,9 +302,17 @@ namespace Store.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Order order = await db.Orders.FindAsync(id);
+            if(order.Count.ToList().Count>0)
+            {
+                foreach (var item in order.Count.ToList())
+                {
+                    db.Count.Remove(item);
+                }
+                await db.SaveChangesAsync();
+            }            
             db.Orders.Remove(order);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Orders");
         }
 
         public async Task<ActionResult> DeleteProduct(int? id)
