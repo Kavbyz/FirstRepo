@@ -1,14 +1,12 @@
 ﻿<div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 class="content">
         @if (ViewBag.HeadingsList != null)
             {
                 foreach (var item in ViewBag.HeadingsList)
                 {
-                <ul>
-                    <li>
-                        <div>@Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = (int)item.Id }, null)</div>
-                    </li>
-                </ul>
+                <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
+                    <span>@item.Name</span>
+                </a>
             }
         }
     </div>

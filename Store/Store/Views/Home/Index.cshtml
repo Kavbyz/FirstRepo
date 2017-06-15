@@ -3,20 +3,18 @@
 }
 
 <div class="row" width="100%">
-    <div class="col-md-2">
-        @if (ViewBag.HeadingsList != null)
+    <div class="col-md-2 class="content">
+@if (ViewBag.HeadingsList != null)
             {
                 foreach (var item in ViewBag.HeadingsList)
                 {
-                <ul>
-                    <li>
-                        <div>@Html.ActionLink((string)item.Name, "SearchProducts", "Headings", new { id = (int)item.Id }, null)</div>
-                    </li>
-                </ul>
-            }
-        }
-    </div>
-    <div class="col-md-6">
+        <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
+            <span>@item.Name</span>
+        </a>
+    }
+}        </div>
+
+        <div class="col-md-6">
             <h2>Приветствуем Вас в интернет-магазине <strong>&quot;ЭКО-ЛАВКА&quot;</strong><b>&nbsp;</b></h2>
             <span style="color: rgb(0, 0, 0);"><span style="font-size: larger;">Мы очень рады Вам и предлагаем широкий выбор экологических товаров:</span></span>
             <ul>
@@ -28,17 +26,17 @@
                 <li>Экологически чистые стиральные порошки без фосфатов, мыльные орехи,моющие средства для посуды и уборки в доме, натуральное мыло ручной работы, дезодорант &quot;Кристалл&quot;, товары для детей.</li>
             </ul>
             <span style="color: rgb(0, 0, 0);"><span style="font-size: larger;">Приятных Вам покупок!</span></span>
-            
-    </div>
 
-    <div class="col-md-1 col-md-offset-1">
-        <form method="post" action="/Home/SearchProducts">
-            <table>
-                <tr>
-                    <td><input type="text" name="ProdName" /> </td>
-                    <td><input type="submit" value="Поиск" /> </td>
-                </tr>
-            </table>
-        </form>
+        </div>
+
+        <div class="col-md-1 col-md-offset-1">
+            <form method="post" action="/Home/SearchProducts">
+                <table>
+                    <tr>
+                        <td><input type="text" name="ProdName" /> </td>
+                        <td><input type="submit" value="Поиск" /> </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
-</div>
