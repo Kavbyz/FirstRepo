@@ -22,6 +22,7 @@ namespace Store.Models
             context.Headings.Add(heading1);
             context.SaveChanges();
 
+            
             Product prod = new Product();
             prod.Description = "gwergweg";
             prod.Count = 2;
@@ -42,6 +43,17 @@ namespace Store.Models
             context.Products.Add(prod2);
             context.SaveChanges();
 
+            Images img = new Images();
+            img.Path = "/Images/noavatar.png";
+            img.Product=prod;
+            context.Images.Add(img);
+            context.SaveChanges();
+
+            Images img1 = new Images();
+            img1.Path = "/Images/Lazy.jpg";
+            img1.Product = prod2;
+            context.Images.Add(img1);
+            context.SaveChanges();
 
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
             var roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
