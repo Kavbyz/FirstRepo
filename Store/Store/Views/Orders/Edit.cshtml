@@ -18,21 +18,68 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
+        </div>*@
+        @if (Model.Status != null)
+        {
+            if (Model.Status == "Новый")
+            {
+                <select name="Status">
+                    <option selected>Новый</option>
+                    <option>Комплектуется</option>
+                    <option>Доставляется</option>
+                    <option>Выполнен</option>
+                </select>
+            }
+            else if (Model.Status == "Комплектуется")
+            {
+                <select name="Status">
+                    <option>Новый</option>
+                    <option selected>Комплектуется</option>
+                    <option>Доставляется</option>
+                    <option>Выполнен</option>
+                </select>
+            }
+            else if (Model.Status == "Доставляется")
+            {
+                <select name="Status">
+                    <option>Новый</option>
+                    <option>Комплектуется</option>
+                    <option selected>Доставляется</option>
+                    <option>Выполнен</option>
+                </select>
+            }
+            else if (Model.Status == "Выполнен")
+            {
+                <select name="Status">
+                    <option>Новый</option>
+                    <option>Комплектуется</option>
+                    <option>Доставляется</option>
+                    <option selected>Выполнен</option>
+                </select>
+            }
+        }
+        else
+        {
+            <select name="Status">
+                <option selected>Новый</option>
+                <option>Комплектуется</option>
+                <option>Доставляется</option>
+                <option>Выполнен</option>
+            </select>
+        }        
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -90,7 +137,61 @@
             </div>
         </div>
 
-        
+        @Html.ActionLink("Добавить товар", "AddProductOrder", new { idOrder = Model.Id })
+        <div id="table">
+            <table class="table">
+                @*<tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Count.)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CountProduct)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>*@
+
+                @foreach (var item in Model.Count)
+                {
+                    <tr id="@((string)"tr"+@item.Id.ToString())">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.Name)
+                        </td>
+                        <td>
+                            <button type="button" onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
+                            <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
+                            <button type="button" onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
+                        </td>
+                        <td><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
+                        <td>
+                            @Ajax.ActionLink("Delete", "DeleteProduct", new { id = @item.Id }, new AjaxOptions { UpdateTargetId = "table" })
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td id="Total">@ViewBag.Total</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        @*<table>
+            @foreach(var item in Model.Count)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.CountProduct</td>                    
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td id="Total">@ViewBag.Total</td>
+                <td></td>
+            </tr>
+        </table>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -104,6 +205,45 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+<script>
+    function Add(current, max, idCount) {
+        if (current <= max && current > 0) {
+            var data = new FormData();
+            data.append("count", current);
+            data.append("idCount", idCount);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddCount", "Orders")',
+                contentType: false, // Указывает тип содержимого, которое будет передано на сервер.
+                processData: false, // Логическое значение, устанавливающее, должны ли данные, передающиеся с запросом преобразовываться в строку или нет
+                data: data,
+                success: function (result) {
+                    $("#table").html(result);
+                },
+                error: function (xhr, status, p3) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+        else if (current > max && current > 0)
+        {
+            $("#Count" + idCount).val(max);
+            Add(max, max, idCount);
+        }
+        else if (current <= max && current < 1)
+        {
+            $("#Count" + idCount).val(1);
+            Add(1, max, idCount);
+        }
+    }
+    $(document).ready(function () {
+
+    });
+</script>
+
 @section Scripts {
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/bundles/jqueryval")
 }

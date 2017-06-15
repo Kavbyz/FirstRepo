@@ -12,7 +12,7 @@
 
 @using (Html.BeginForm("OrderSearchId", "Orders", FormMethod.Post))
 {
-    @if (ViewBag.msg != null)
+    if (ViewBag.msg != null)
     {
         <label id="lSearchId">@((string)ViewBag.msg)</label>
     }
@@ -42,6 +42,8 @@
 @Html.ActionLink("Новые заказы", "NewOrders")
 <br />
 @Html.ActionLink("Все Заказы", "AllOrders")
+<br />
+@Html.ActionLink("Добавить Заказ", "AddOrder")
 <br />
 <script>
     @*function SearchId(value)

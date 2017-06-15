@@ -3,7 +3,7 @@
     Layout = null;
 }
 <table class="table">
-    <tr>
+    @*<tr>
         <th>
             @Html.DisplayNameFor(model => model.Product.Name)
         </th>
@@ -12,7 +12,7 @@
         </th>
         <th></th>
         <th></th>
-    </tr>
+    </tr>*@
 
     @foreach (var item in Model)
     {
@@ -21,9 +21,9 @@
                 @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
             <td>
-                <button onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
+                <button type="button" onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
                 <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
-                <button onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
+                <button type="button" onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
             </td>
             <td><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
             <td>

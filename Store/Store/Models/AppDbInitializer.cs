@@ -70,7 +70,7 @@ namespace Store.Models
             order.Delivery = "123";
             order.Email = "123";
             order.Name = "123";
-            order.Status = "New";
+            order.Status = "Новый";
             order.SurName = "123";
             order.Telephone = "123";
             order.Time = DateTime.Now;
