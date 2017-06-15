@@ -35,6 +35,11 @@
                 <dd>@Html.ActionLink("Список пользователей", "Index", "Account")</dd>
                 <dd>@Html.ActionLink("Добавить товар", "Create", "Products")</dd>
                 <dd>@Html.ActionLink("Заказы", "Orders", "Orders")</dd>
+                <dd>@Html.ActionLink("Мои Заказы", "MyOrders", "Orders")</dd>
+            }
+            else
+            {
+                <dd>@Html.ActionLink("Мои Заказы", "MyOrders", "Orders")</dd>
             }
         }
         @*<dt>Внешние имена входа:</dt>

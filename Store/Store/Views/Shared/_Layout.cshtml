@@ -77,6 +77,24 @@
                     <div><small>(095) </small>  <span>00-513-00</span></div>
                     <div><small>(073) </small>  <span>00-513-00</span></div>
                 </div>
+                <a href="@Url.Action("Index", "Home")" class="button">
+                    <span>Домашняя страница</span>
+                </a>
+                <a href="@Url.Action("Contact", "Home")" class="button">
+                    <span>Контакты</span>
+                </a>
+                <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
+                    <span>Оплата и Доставка</span>
+                </a>
+            @Html.ActionLink("Корзина", "Basket", "Baskets", null, new { @class = "button" })
+
+       </div>
+            <div >
+                @RenderBody()
+                <hr />
+                <footer>
+                </footer>
+            </div>
 
                 <div class="col-md-8">
                     <div class="title">Время работы</div>

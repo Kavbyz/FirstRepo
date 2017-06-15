@@ -18,6 +18,38 @@ namespace Store.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult Basket()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId= User.Identity.GetUserId();
+                if(db.Basket.Where(a=>a.User.Id==userId).ToList().Count>0)
+                {
+                    return RedirectToAction("ViewBasket", new { idBasket = db.Basket.Where(a => a.User.Id == userId).FirstOrDefault().Id, message = "Сообщение" });
+                }
+                else
+                {
+                    return View("NoBasket");
+                }
+            }
+            else
+            {
+                if (Request.Cookies["Basket"] == null)
+                {
+                    return View("NoBasket");
+                }
+                else if (Request.Cookies["Basket"].Value == null)
+                {
+                    return View("NoBasket");
+                }
+                else
+                {
+                    return RedirectToAction("ViewBasket", new { idBasket = Int32.Parse(Request.Cookies["Basket"].Value.ToString()), message = "Сообщение" });
+                }
+            }
+            return View();
+        }
+
         public ActionResult ViewBasket(int idBasket, string message)
         {
             Basket basket = db.Basket.Find(idBasket);
