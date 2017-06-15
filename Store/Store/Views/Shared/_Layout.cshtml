@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 @*@model IEnumerable<Store.Models.Headings>*@
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
 <html>
 <head>
     <style>
@@ -13,7 +15,14 @@
             background: -ms-linear-gradient(top,#f9f8f5,#f6f3ec);
             background: -o-linear-gradient(top,#f9f8f5,#f6f3ec);
             background: linear-gradient(top,#f9f8f5,#f6f3ec);
+
         }
+        .footer_back {
+            background-image: url('Images/footer.png');
+            background-attachment: scroll;
+            background-position: repeat-x;
+        }
+       
     </style>
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -40,30 +49,58 @@
             </div>
         </div>
         <div class="content">
-                <a href="@Url.Action("Index", "Home")" class="button">
-                    <span>Домашняя страница</span>
-                </a>
-                <a href="@Url.Action("Contact", "Home")" class="button">
-                    <span>Контакты</span>
-                </a>
-                <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
-                    <span>Оплата и Доставка</span>
-                </a>
-                <a href="@Url.Action("AddProduct", "Baskets")" class="button">
-                    <span>Корзина</span>
-                </a>
-       </div>
-            <div >
-                @RenderBody()
-                <hr />
-                <footer>
-                </footer>
+            <a href="@Url.Action("Index", "Home")" class="button">
+                <span>Домашняя страница</span>
+            </a>
+            <a href="@Url.Action("Contact", "Home")" class="button">
+                <span>Контакты</span>
+            </a>
+            <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
+                <span>Оплата и Доставка</span>
+            </a>
+            <a href="@Url.Action("ViewBasket", "Baskets")" class="button">
+                <span>Корзина</span>
+            </a>
+        </div>
+        <div>
+            @RenderBody()
+            <hr />
+            <footer></footer>
+        </div>
+
+        <footer class="footer_back">
+            <div class="row">
+                </br>
+                <div class="col-md-3 col-md-offset-1">
+                    <div>Эко-Лавка</div>
+                    <div><small>(097) </small>  <span>00-513-00</span></div>
+                    <div><small>(095) </small>  <span>00-513-00</span></div>
+                    <div><small>(073) </small>  <span>00-513-00</span></div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="title">Время работы</div>
+                    <p>Пн.- Сб.</p>
+                    <p>с 9:30 до 17:30</p>
+                    <div>
+                        Прием заказов на сайте
+                        КРУГЛОСУТОЧНО без выходных
+                    </div>
+                    </br>
+                </div>
+                <div class="col-md-12">
+                    Купить эко-товары в Украине с доставкой в Киев, Харьков, Одесса, Днепропетровск, Донецк, Запорожье, Львов, Кривой Рог, Николаев, Мариуполь, Луганск, Винница,
+                    Макеевка, Херсон, Полтава, Чернигов, Черкассы, Умань, Житомир, Сумы, Хмельницкий, Горловка, Ровно, Кировоград, Днепродзержинск,
+                    Черновцы, Кременчуг, Ивано-Франковск, Тернополь, Белая Церковь, Луцк, Краматорск, Мелитополь, Никополь, Северодонецк, Славянск,
+                    Бердянск, Ужгород, Алчевск, Павлоград, Лисичанск, Каменец-Подольский.
+                </div>
+
             </div>
-
-
+        </footer>
+    </div>
             @Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")
             @RenderSection("scripts", required: false)
-        </div>
+        
 </body>
 </html>

@@ -133,6 +133,12 @@ namespace Store.Controllers
             {
                 return HttpNotFound();
             }
+            if (id == -1)
+            {
+                var M = db.Products.ToList();
+                return View(M);
+            }
+
             ViewBag.HeadingId = id;
             if (temp == 1)
             {

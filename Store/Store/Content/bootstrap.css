@@ -35,19 +35,9 @@ section,
 summary {
   display: block;
 }
-<style>
-        .content {
-            width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            background-color: #f9f8f5;
-            background: -webkit-linear-gradient(top,#f9f8f5,#f6f3ec);
-            background: -moz-linear-gradient(top,#f9f8f5,#f6f3ec);
-            background: -ms-linear-gradient(top,#f9f8f5,#f6f3ec);
-            background: -o-linear-gradient(top,#f9f8f5,#f6f3ec);
-            background: linear-gradient(top,#f9f8f5,#f6f3ec);
-        }
-    </style>
+<style > 
+
+
 
 audio,
 canvas,
@@ -251,7 +241,11 @@ textarea {
 .button:active::before {
     padding: 1px 0 0;
 }
-
+.footer_back {
+    background-image: url('Images/footer.png');
+    background-attachment: scroll;
+    background-position: repeat-x;
+}
 /**
  * Grey
  */

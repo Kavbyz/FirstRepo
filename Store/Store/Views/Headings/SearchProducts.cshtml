@@ -6,7 +6,7 @@
     @Html.ActionLink("По популярности", "SearchProducts", "Headings", new { temp = 3, id = ViewBag.HeadingId }, null)
 </p>
 <table class="table">
-    <tr>
+    @*<tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -46,6 +46,36 @@
             </td>
         }
     </tr>
-}
+}*@
+    <div class="col-md-2 class="content">
+        <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button">
+            <span>All Products</span>
+        </a>
+        @if (ViewBag.HeadingsList != null)
+            {
+                foreach (var item in ViewBag.HeadingsList)
+                {
+                <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
+                    <span>@item.Name</span>
+                </a>
+            }
+        }
+    </div>
+    @foreach (var item in Model)
+    {
+        <div style="margin-top:20px; overflow:hiden" class="div_list_element">
+            <form method="get" action="index1.php">
+                <input type="submit" value="@item.Name" style="margin-top:5px;"></input>
+            </form>
+            <div>
+                <p style="margin-top:-10px;">Цена: @item.Price грн<p>
+            </div>
+           @*<img src="@item.Images.ElementAt(0)" />*@
+            <div>
+                <p style="margin-top:0px;">Описание:</p>
+                <p style="margin-top:-10px;">@item.Description</p>
+            </div>
+        </div>
+    }
 
 </table>

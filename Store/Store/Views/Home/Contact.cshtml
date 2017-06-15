@@ -1,5 +1,10 @@
-﻿<div class="row">
+﻿@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<div class="row">
     <div class="col-md-2 class="content">
+        <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button">
+            <span>All Products</span>
+        </a>
         @if (ViewBag.HeadingsList != null)
             {
                 foreach (var item in ViewBag.HeadingsList)
@@ -40,3 +45,5 @@
         </form>
     </div>
 </div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
