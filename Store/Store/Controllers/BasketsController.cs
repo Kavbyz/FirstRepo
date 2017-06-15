@@ -78,7 +78,7 @@ namespace Store.Controllers
                     }
                 }
             }
-
+             
             if (basket!=null)
             {
                 Product p = db.Products.Where(i => i.Id == id).FirstOrDefault();                
