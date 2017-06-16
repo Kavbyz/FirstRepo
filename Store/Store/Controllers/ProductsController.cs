@@ -18,18 +18,18 @@ namespace Store.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult SendComment(string Name, string Comment, int IdProduct)
+        public ActionResult SendComment(string NameUser, string CommentUser, int IdProduct)
         {
             Store.Models.Comment comment = new Models.Comment();
-            comment.Comment_Text = Comment;
-            comment.Commen_Name = Name;
+            comment.Comment_Text = CommentUser;
+            comment.Commen_Name = NameUser;
             comment.Product = db.Products.Where(a => a.Id == IdProduct).FirstOrDefault();
             comment.Date = DateTime.Now;
 
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return PartialView(db.Comments.ToList());
+            return PartialView(db.Comments.Where(a=>a.Product.Id==IdProduct).ToList());
         }
 
         public ActionResult DeleteComment(int id)
@@ -93,7 +93,7 @@ namespace Store.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = await db.Products.FindAsync(id);
-            ViewBag.Comment = db.Comments.Where(comment => comment.Product.Id == product.Id).ToList();
+            ViewBag.Comment = db.Comments.Where(comment => comment.Product.Id == product.Id).ToList();            
             if (product == null)
             {
                 return HttpNotFound();

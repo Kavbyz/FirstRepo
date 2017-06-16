@@ -14,9 +14,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td>
-                @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
-            </td>
+            @if (User.IsInRole("Admin"))
+                {
+                <td>
+                    @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
+                </td>
+            }
         </tr>
     }
 

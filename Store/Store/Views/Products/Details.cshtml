@@ -14,6 +14,16 @@
     <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt></dt>
+        <dd><img src="@Model.Images.ToList()[0].Path" height="200" width="200" /></dd>
+        @if (Model.Images.ToList().Count > 1)
+        {
+            for (var i = 0; i < Model.Images.ToList().Count; i++)
+            {
+                <dt></dt>
+                <dd><img src="@Model.Images.ToList()[i].Path" height="200" width="200" /></dd>
+            }
+        }
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -47,6 +57,15 @@
         </dd>
 
     </dl>
+    <div>
+        @Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = Model.Id }, null)
+    </div>
+    @if (Request.Cookies["AddProductOrder"] != null)
+    {
+        <div>
+            @Html.ActionLink("Добавить в Заказ", "AddProductInOrder", "Orders", new { id = Model.Id }, null)
+        </div>
+    }
 </div>
 <div id="comments">
     <table class="table">        
@@ -65,10 +84,13 @@
                 <td>
                     @*@Html.Display((string)item.Date.ToLongDateString())*@
                     @item.Date.ToLongDateString()
-                </td>
-                <td>
-                    @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
-                </td>
+                </td>                
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
+                    </td>
+                }                        
             </tr>
         }
 
@@ -77,13 +99,16 @@
 
 @using (Ajax.BeginForm("SendComment", new AjaxOptions { UpdateTargetId = "comments" }))
 {
-    @Html.TextBox("Name");
-    @Html.TextArea("Comment");
+    <br />
+    @Html.TextBox("NameUser");
+    <br />
+    @Html.TextArea("CommentUser");
     <input name="IdProduct" value="@Model.Id" hidden/>
+    <br />
     <input type="submit" value="Отправить" />
 }
 
-<p>
+@*<p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

@@ -18,14 +18,14 @@
         <p>
             @Html.ActionLink("От Дорогих к дешевым", "SearchProducts", "Headings", new { temp = 1, id = ViewBag.HeadingId }, null)
             @Html.ActionLink("От Дешевых к дорогим", "SearchProducts", "Headings", new { temp = 2, id = ViewBag.HeadingId }, null)
-            @Html.ActionLink("По популярности", "SearchProducts", "Headings", new { temp = 3, id = ViewBag.HeadingId }, null)
+            @*@Html.ActionLink("По популярности", "SearchProducts", "Headings", new { temp = 3, id = ViewBag.HeadingId }, null)*@
         </p>
         <div class="content col-md-7">
                 @foreach (var item in Model)
             {
                     <div style="display:inline-block;text-align:center;">
                         <div>
-                            <a href="@Url.Action("ShowProduct", "Headings", new { id = @item.Id })"><img src="@item.Images.ToList()[0].Path" height="200" width="200" /></a>
+                            <a href="@Url.Action("Details", "Products", new { id = @item.Id })"><img src="@item.Images.ToList()[0].Path" height="200" width="200" /></a>
                         </div>
                         <div>
                             <p>Name: @Html.DisplayFor(modelItem => item.Name)</p>
