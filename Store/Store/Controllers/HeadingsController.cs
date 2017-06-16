@@ -8,9 +8,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store.Models;
+using Store.Filters;
 
 namespace Store.Controllers
 {
+    [Culture]
     public class HeadingsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

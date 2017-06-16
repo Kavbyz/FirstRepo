@@ -13,12 +13,12 @@ namespace Store.Models
         protected override void Seed(ApplicationDbContext context)
         {
             Headings heading = new Headings();
-            heading.Name = "First";
+            heading.Name = "Первая";
             context.Headings.Add(heading);
             context.SaveChanges();
 
             Headings heading1 = new Headings();
-            heading1.Name = "Double";
+            heading1.Name = "Вторая";
             context.Headings.Add(heading1);
             context.SaveChanges();
 

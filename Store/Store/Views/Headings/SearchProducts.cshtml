@@ -28,17 +28,17 @@
                             <a href="@Url.Action("Details", "Products", new { id = @item.Id })"><img src="@item.Images.ToList()[0].Path" height="200" width="200" /></a>
                         </div>
                         <div>
-                            <p>Name: @Html.DisplayFor(modelItem => item.Name)</p>
+                            <p>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(modelItem => item.Name)</p>
                         </div>
                         <div>
-                            <p>Count: @Html.DisplayFor(modelItem => item.Count)</p>
+                            <p>@Html.DisplayNameFor(model => model.Count): @Html.DisplayFor(modelItem => item.Count)</p>
                         </div>
                         <div>
-                            <p>Price: @Html.DisplayFor(modelItem => item.Price)</p>
+                            <p>@Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(modelItem => item.Price)</p>
                         </div>
                         <div>
                             <p style="overflow: hidden; text-overflow: ellipsis;width:200px;text-align:center;">
-                              Description:  @item.Description
+                              @Html.DisplayNameFor(model => model.Description):  @item.Description
                             </p>
                         </div>
                         <div>
