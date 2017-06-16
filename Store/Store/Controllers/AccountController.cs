@@ -56,13 +56,20 @@ namespace Store.Controllers
             }
         }
 
-        private ApplicationDbContext db { get { return HttpContext.GetOwinContext().Get<ApplicationDbContext>(); } }
         [AllowAnonymous]
+        public ActionResult NotAccess()
+        {
+            return View();
+        }
+
+        private ApplicationDbContext db { get { return HttpContext.GetOwinContext().Get<ApplicationDbContext>(); } }
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(UserManager.Users.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -81,6 +88,7 @@ namespace Store.Controllers
         }
 
         // POST: Posts/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)

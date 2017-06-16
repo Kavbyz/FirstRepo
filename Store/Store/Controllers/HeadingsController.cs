@@ -12,6 +12,7 @@ using Store.Filters;
 
 namespace Store.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Culture]
     public class HeadingsController : Controller
     {
@@ -129,6 +130,7 @@ namespace Store.Controllers
             base.Dispose(disposing);
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> SearchProducts(int? id, int temp = 0)
         {
             if (id == null)
@@ -159,6 +161,8 @@ namespace Store.Controllers
             //}
             return View(M);
         }
+
+        [AllowAnonymous]
         public async Task<ActionResult> ShowProduct(int? id)
         {
             ViewBag.HeadingsList = db.Headings.ToList();

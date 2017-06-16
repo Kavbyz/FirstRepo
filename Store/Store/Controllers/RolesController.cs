@@ -14,6 +14,7 @@ using Store.Models;
 
 namespace Store.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class RolesController : Controller
     {
         private ApplicationRoleManager RoleManager

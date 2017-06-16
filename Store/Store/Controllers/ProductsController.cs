@@ -14,10 +14,12 @@ using Microsoft.Owin.Security;
 
 namespace Store.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [AllowAnonymous]
         public ActionResult SendComment(string NameUser, string CommentUser, int IdProduct)
         {
             Store.Models.Comment comment = new Models.Comment();
@@ -82,10 +84,11 @@ namespace Store.Controllers
             ViewBag.HeadingsList = db.Headings.ToList();
             return View(await db.Products.ToListAsync());
         }
-        
-        
+
+
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)

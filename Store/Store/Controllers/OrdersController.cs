@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Store.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -53,6 +54,7 @@ namespace Store.Controllers
             return View("ShowOrders", db.Orders.Where(a => a.User.Id == UserId).ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AddOrder()
         {
             Order order = new Order();
@@ -62,6 +64,7 @@ namespace Store.Controllers
             return RedirectToAction("Edit", "Orders", new { id = order.Id });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AddProductInOrder(int id)
         {
             if (Request.Cookies["AddProductOrder"] != null)
@@ -98,6 +101,7 @@ namespace Store.Controllers
             return RedirectToAction("SearchProducts", "Headings", new { id = 1 });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AddProductOrder(int idOrder)
         {
             HttpContext.Response.Cookies["AddProductOrder"].Value = idOrder.ToString();
@@ -105,6 +109,7 @@ namespace Store.Controllers
             return RedirectToAction("SearchProducts", "Headings", new { id = 1 });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> CreateOrder([Bind(Include = "Id,Comment,Name,SurName,Email,Telephone,Adress")] Order order, int idBasket)
         {
@@ -130,6 +135,7 @@ namespace Store.Controllers
             return View("OrderSuccess");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<JsonResult> SearchId()
         {
@@ -145,11 +151,13 @@ namespace Store.Controllers
             
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Orders()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> OrderSearchId(string Id)
         {
@@ -161,6 +169,7 @@ namespace Store.Controllers
             return RedirectToAction("Edit", new { id=Int32.Parse(Id) });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> OrderSearchName(string Name, string SurName)
         {
@@ -172,12 +181,13 @@ namespace Store.Controllers
             return View("Orders");
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> NewOrders()
         {
             return View("ShowOrders", db.Orders.Where(a => a.Status=="Новый").ToList());
         }
 
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> AllOrders()
         {
             return View("ShowOrders", db.Orders.ToList());
@@ -234,6 +244,7 @@ namespace Store.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -257,6 +268,7 @@ namespace Store.Controllers
         // POST: Orders/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Status,Comment,Name,SurName,Email,Telephone,Adress,Delivery")] Order order)
@@ -276,6 +288,7 @@ namespace Store.Controllers
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -297,6 +310,7 @@ namespace Store.Controllers
         }
 
         // POST: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
@@ -315,6 +329,7 @@ namespace Store.Controllers
             return RedirectToAction("Orders");
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteProduct(int? id)
         {
             if (id == null)
@@ -333,6 +348,7 @@ namespace Store.Controllers
             //return PartialView("AddCount","Baskets", order.Count.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult AddCount()
         {
