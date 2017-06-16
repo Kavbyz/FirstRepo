@@ -109,7 +109,8 @@ namespace Store.Controllers
         public ActionResult AddPhoneNumber(string UserId)
         {
             ViewBag.userId = UserId;
-            if (User.IsInRole("Admin"))
+            var user = UserManager.FindById(UserId);
+            if (user.Roles.Where(a=>a.RoleId== HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Id).ToList().Count>0)
             {
                 ViewBag.isAdmin = 1;
             }
@@ -139,25 +140,29 @@ namespace Store.Controllers
             //}
             //return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
 
-            if(Role=="Admin")
+            var user = UserManager.FindById(UserId);
+            user.PhoneNumber = model.Number;
+            user.UserName = model.UserName;
+            user.Email = model.Email;            
+
+            if (Role=="Admin")
             {
-                if (User.IsInRole("Admin")!=false)
-                {
-                    UserManager.AddToRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);                    
-                }
+                UserManager.AddToRole(user.Id, "Admin");
+                //if (user.Roles.Where(a => a.RoleId == HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Id).ToList().Count < 1)
+                //{
+                //    UserManager.AddToRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);                    
+                //}
             }
             else if(Role=="User")
             {
-                if (User.IsInRole("Admin"))
-                {
-                    UserManager.RemoveFromRole(UserManager.FindById(UserId).Id, HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Name);
-                }
-            }
+                UserManager.RemoveFromRole(user.Id, "Admin");
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("login", "Account");
+                //if (user.Roles.Where(a=>a.RoleId == HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>().FindByName("Admin").Id).ToList().Count>0)
+                //{
 
-            var user = await UserManager.FindByIdAsync(UserId);
-            user.PhoneNumber = model.Number;
-            user.UserName = model.UserName;
-            user.Email = model.Email;
+                //}                
+            }
             UserManager.Update(user);
             return RedirectToAction("Index", new {Message = "", UserId = UserId });
         }
