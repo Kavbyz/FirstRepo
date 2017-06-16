@@ -40,26 +40,27 @@
                     <img src="@item.Product.Images.ToList()[0].Path" height="200" width="200" />
                 </td>
                 <td>
+                    <p>Количество: </p>
                     <button type="button" onclick="Add(@((int)item.CountProduct-1), @item.Product.Count, @item.Id)">-</button>
                     <input onchange="Add(this.value, @item.Product.Count, @item.Id)" type="text" id="@((string)"Count"+@item.Id.ToString())" value="@item.CountProduct" />
                     <button type="button" onclick="Add(@((int)item.CountProduct+1), @item.Product.Count, @item.Id)">+</button>
                 </td>
-                <td><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
+                <td><p>Общая сумма по товару: </p><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
                 <td>
-                    @Ajax.ActionLink("Delete", "DeleteProduct", new { id=@item.Id }, new AjaxOptions{ UpdateTargetId="table"})
+                    @Ajax.ActionLink("Удалить", "DeleteProduct", new { id=@item.Id }, new AjaxOptions{ UpdateTargetId="table"})
                 </td>
             </tr>
         }
         <tr>
             <td></td>
-            <td></td>
+            <td><p>Общая сумма заказа: </p></td>
             <td id="Total">@ViewBag.Total</td>
             <td></td>
         </tr>
     </table>
 </div>
 
-<div>
+<div style="text-align:right">
     @using (Html.BeginForm("CreateOrder", "Orders", FormMethod.Post))
     {
         @Html.Hidden("idBasket", (int)ViewBag.idBasket)

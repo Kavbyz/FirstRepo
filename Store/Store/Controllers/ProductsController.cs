@@ -91,6 +91,7 @@ namespace Store.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Details(int? id)
         {
+            ViewBag.HeadingsList = db.Headings.ToList();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
