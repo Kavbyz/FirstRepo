@@ -36,7 +36,15 @@ namespace Store.Models
             prod.Headings = h;
 
             Product prod2 = new Product();
-            prod2.Description = "htyrjhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtykrty";
+            prod2.Description = "htyrjhtyrjkrtyhtyrjkrtyhtyrjkrtyhty" +
+                "rjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyr" +
+                "jkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhty" +
+                "rjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrj" +
+                "krtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrt" +
+                "yhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkr" +
+                "tyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrty" +
+                "htyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrt" +
+                "yhtyrjkrtyhtyrjkrtyhtyrjkrtyhtyrjkrtykrty";
             prod2.Count = 22;
             prod2.Price = 2352;
             prod2.Name = ",yu234tyier235gr";
