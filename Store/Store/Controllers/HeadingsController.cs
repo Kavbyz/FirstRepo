@@ -131,7 +131,7 @@ namespace Store.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> SearchProducts(int? id, int temp = 0)
+        public async Task<ActionResult> SearchProducts(int? id, int temp = 0, string ProdName = null)
         {
             if (id == null)
             {
@@ -143,6 +143,12 @@ namespace Store.Controllers
             if (id != -1)
             {
                 M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList();
+            }
+            ViewBag.ProdName = null;
+            if (ProdName != null)
+            {
+                    M = db.Products.Where(i => i.Name.Contains(ProdName)).ToList();
+                    ViewBag.ProdName = ProdName;
             }
 
             ViewBag.HeadingId = id;
@@ -159,6 +165,7 @@ namespace Store.Controllers
             //    var M = db.Headings.Where(h => h.Id == id).SelectMany(p => p.Products).ToList().OrderBy(t => t.Price); // По популярности
             //    return View(M);
             //}
+            ViewBag.HeadingsList = db.Headings.ToList();
             return View(M);
         }
 

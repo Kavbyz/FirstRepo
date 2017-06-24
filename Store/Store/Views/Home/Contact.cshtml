@@ -1,15 +1,8 @@
 ﻿@Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
 
-<style>
-    .l {
-        background-image: url('/Images/left.jpg');
-        background-attachment: scroll;
-    }
-</style>
-
 <div class="row">
-    <div class="col-md-2 class="content l">
+    <div class="col-md-2 class="h">
         <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button xbox">
             <span>Все Продукты</span>
         </a>
