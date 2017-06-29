@@ -46,6 +46,8 @@ namespace Store.Controllers
         public async Task<ActionResult> SearchProducts(string ProdName)
         {
             List<Product> p = db.Products.Where(i => i.Name.Contains(ProdName)).ToList();
+            ViewBag.ProdName = ProdName;
+            ViewBag.HeadingsList = db.Headings.ToList();
             return View(p);
         }
 

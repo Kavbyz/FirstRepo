@@ -1,17 +1,16 @@
 ﻿@Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
 
-
 <div class="row">
-    <div class="col-md-2 class="content">
-        <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button">
+    <div class="col-md-2 class="h">
+        <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button xbox">
             <span>Все Продукты</span>
         </a>
         @if (ViewBag.HeadingsList != null)
             {
                 foreach (var item in ViewBag.HeadingsList)
                 {
-                <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
+                <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button xbox">
                     <span>@item.Name</span>
                 </a>
             }
@@ -41,7 +40,7 @@
             <table>
                 <tr>
                     <td><input type="text" name="ProdName" /> </td>
-                    <td><input type="submit" value="Поиск" /> </td>
+                    <td><input type="submit" value="Поиск"/> </td>
                 </tr>
             </table>
         </form>

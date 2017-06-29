@@ -1,7 +1,5 @@
 ﻿<!DOCTYPE html>
 @*@model IEnumerable<Store.Models.Headings>*@
-<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-
 <html>
 <head>
     <style>
@@ -12,25 +10,32 @@
             background-color: #f9f8f5;
             background: -webkit-linear-gradient(top,#f9f8f5,#f6f3ec);
             background: -moz-linear-gradient(top,#f9f8f5,#f6f3ec);
-            background: -ms-linear-gradient(top,#f9f8f5,#f6f3ec);
             background: -o-linear-gradient(top,#f9f8f5,#f6f3ec);
             background: linear-gradient(top,#f9f8f5,#f6f3ec);
 
         }
-        footer.footer_back {
-            background-image: url('Images/footer.png');
+        .f {
+            background-image: url('/Images/footer.png');
             background-attachment: scroll;
-            background-position: repeat-x;
         }
-       
+        .h {
+            background-image: url('/Images/logo.png');
+            background-repeat: no-repeat;
+            background-size:contain;
+            background-repeat:round;
+        }
+        .l {
+            background-image: url('/Images/logo.jpg');
+            background-attachment: scroll;
+        }
     </style>
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="content">
@@ -48,62 +53,67 @@
                 </div>
             </div>
         </div>
-        <div class="content">
-            <a href="@Url.Action("Index", "Home")" class="button">
+        <div class="h">
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+            <a href="@Url.Action("Index", "Home")" class="button xbox">
                 <span>Домашняя страница</span>
             </a>
-            <a href="@Url.Action("Contact", "Home")" class="button">
+            <a href="@Url.Action("Contact", "Home")" class="button xbox">
                 <span>Контакты</span>
             </a>
-            <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button">
+            <a href="@Url.Action("PaymentAndDelivery", "Home")" class="button xbox">
                 <span>Оплата и Доставка</span>
             </a>
-            @Html.ActionLink("Корзина", "Basket", "Baskets", null, new { @class = "button" })
+            @Html.ActionLink("Корзина", "Basket", "Baskets", null, new { @class = "button xbox" })
         </div>
         <div>
             @RenderBody()
             <hr />
-            <footer></footer>
         </div>
-
-        <footer class="footer_back">
+        <footer class="f">
             </br>
+
             @*<div>
-                @using (Html.BeginForm("ChangeCulture", "Home"))
-                {
-                    <select name="lang">
-                        <option disabled selected>@Resources.Resource.ChooseLang</option>
-                        <option value="ru">Русский</option>
-                        <option value="en">English</option>
-                        <option value="uk">Українська</option>
-                    </select>
-                    <input type="submit" name="submit" value="@Resources.Resource.ChooseLang">
-                }
-            </div>*@
-                <div class="col-md-3">Эко-Лавка
-                    <div><small>(097) </small>  <span>00-513-00</span></div>
-                    <div><small>(095) </small>  <span>00-513-00</span></div>
-                    <div><small>(073) </small>  <span>00-513-00</span></div>
-                </div><!--phones-->
+                    @using (Html.BeginForm("ChangeCulture", "Home"))
+                    {
+                        <select name="lang">
+                            <option disabled selected>@Resources.Resource.ChooseLang</option>
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                            <option value="uk">Українська</option>
+                        </select>
+                        <input type="submit" name="submit" value="@Resources.Resource.ChooseLang">
+                    }
+                </div>*@
+            <div class="col-md-3">
+                Эко-Лавка
+                <div><small>(097) </small>  <span>00-513-00</span></div>
+                <div><small>(095) </small>  <span>00-513-00</span></div>
+                <div><small>(073) </small>  <span>00-513-00</span></div>
+            </div><!--phones-->
 
-                <div class="col-md-9">
-                    <div class="title">Время работы</div>
-                    <p>Пн.- Сб.</p>
-                    <p>с 9:30 до 17:30</p>
-                    <div>
-                        Прием заказов на сайте
-                        КРУГЛОСУТОЧНО без выходных
-                    </div>
-                    </br>
+            <div class="col-md-9">
+                <div class="title">Время работы</div>
+                <p>Пн.- Сб.</p>
+                <p>с 9:30 до 17:30</p>
+                <div>
+                    Прием заказов на сайте
+                    КРУГЛОСУТОЧНО без выходных
                 </div>
-                <div class="col-md-12">
-                    Купить эко-товары в Украине с доставкой в Киев, Харьков, Одесса, Днепропетровск, Донецк, Запорожье, Львов, Кривой Рог, Николаев, Мариуполь, Луганск, Винница,
-                    Макеевка, Херсон, Полтава, Чернигов, Черкассы, Умань, Житомир, Сумы, Хмельницкий, Горловка, Ровно, Кировоград, Днепродзержинск,
-                    Черновцы, Кременчуг, Ивано-Франковск, Тернополь, Белая Церковь, Луцк, Краматорск, Мелитополь, Никополь, Северодонецк, Славянск,
-                    Бердянск, Ужгород, Алчевск, Павлоград, Лисичанск, Каменец-Подольский.
-                </div>
+                </br>
+            </div>
+            <div class="col-md-12">
+                Купить эко-товары в Украине с доставкой в Киев, Харьков, Одесса, Днепропетровск, Донецк, Запорожье, Львов, Кривой Рог, Николаев, Мариуполь, Луганск, Винница,
+                Макеевка, Херсон, Полтава, Чернигов, Черкассы, Умань, Житомир, Сумы, Хмельницкий, Горловка, Ровно, Кировоград, Днепродзержинск,
+                Черновцы, Кременчуг, Ивано-Франковск, Тернополь, Белая Церковь, Луцк, Краматорск, Мелитополь, Никополь, Северодонецк, Славянск,
+                Бердянск, Ужгород, Алчевск, Павлоград, Лисичанск, Каменец-Подольский.
+            </div>
 
-            </footer>
+        </footer>
     </div>
             @Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")

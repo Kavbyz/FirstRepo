@@ -1,6 +1,16 @@
 ﻿@model Store.Models.Product
 @using Store.Models
-
+<style>
+    .product {
+        border: 1px solid #b5e9a7;
+        border-radius: 3px;
+        background: #fff;
+        text-decoration: none;
+        color: #474747;
+        z-index: 0;
+        text-align: center;
+    }
+</style>
 @{
     ViewBag.Title = "Details";
 }
@@ -10,21 +20,21 @@
 <div class="content">
     <div class="row">
         <div class="col-md-2">
-            <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button">
-                <span>All Products</span>
-            </a>
             @if (ViewBag.HeadingsList != null)
             {
+                <a href="@Url.Action("SearchProducts", "Headings", new { id = -1 })" class="button xbox">
+                    <span>Все продукты</span>
+                </a>
                 foreach (var item in ViewBag.HeadingsList)
                 {
-                    <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button">
+                    <a href="@Url.Action("SearchProducts", "Headings", new { id = (int)item.Id })" class="button xbox">
                         <span>@item.Name</span>
                     </a>
                 }
             }
         </div>
 
-        <div class="col-md-6 col-md-offset-2">
+        <div class="col-md-3 product">
             <dl class="dl-horizontal">
                 @*<dd ><img src="@Model.Images.ToList()[0].Path" height="200" width="200" /></dd>
                 @if (Model.Images.ToList().Count > 1)
@@ -38,48 +48,55 @@
                 <div>
                     <a href="@Url.Action("Details", "Products", new { id = Model.Id })"><img src="@Model.Images.ToList()[0].Path" height="200" width="200" /></a>
                 </div>
-                <dt>
+                @*<dt>
                     @Html.DisplayNameFor(model => model.Name)
-                </dt>
+                </dt>*@
 
-                <dd>
+                <div>
                     @Html.DisplayFor(model => model.Name)
-                </dd>
+                </div>
 
-                <dt>
+                @*<dt>
                     @Html.DisplayNameFor(model => model.Count)
-                </dt>
+                </dt>*@
 
-                <dd>
+                @*<div>
                     @Html.DisplayFor(model => model.Count)
-                </dd>
+                </div>*@
 
-                <dt>
+                @*<dt>
                     @Html.DisplayNameFor(model => model.Price)
-                </dt>
+                </dt>*@
 
-                <dd>
-                    @Html.DisplayFor(model => model.Price)
-                </dd>
-
-                <dt>
+                <div>
+                    <p>@Html.DisplayFor(model => model.Price) грн.</p>
+                </div>
+                @*<dt>
                     @Html.DisplayNameFor(model => model.Description)
-                </dt>
+                </dt>*@
+                
 
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
+            <div style="margin-left:30px;">
+                <p style="margin-left:-30px;">Описание товара:</p>
+                <p style="word-wrap: break-word; overflow: auto ;width:200px;">
+                   @Model.Description
+                </p>
+            </div>
 
             </dl>
             <div>
-                <div>@Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = Model.Id }, null)</div>
+                <div>@Html.ActionLink("Добавить в Корзину", "AddProduct", "Baskets", new { id = Model.Id }, new { @class = "button" })</div>
             </div>
             @if (Request.Cookies["AddProductOrder"] != null)
             {
                 <div>
-                    @Html.ActionLink("Добавить в Заказ", "AddProductInOrder", "Orders", new { id = Model.Id }, null)
+                    @Html.ActionLink("Добавить в Заказ", "AddProductInOrder", "Orders", new { id = Model.Id }, new { @class = "button" })
                 </div>
             }
+
+            </div>
+        <div class="col-md-4 col-md-offset-2">
+
             <div id="comments">
                 <table class="table">
 
@@ -92,7 +109,9 @@
                             </td>
                             <td>
                                 @*@Html.Display((string)item.Comment_Text)*@
-                                @item.Comment_Text
+                                <p style="word-wrap: break-word; overflow: auto ;width:200px;">
+                                    @item.Comment_Text
+                                </p>
                             </td>
                             <td>
                                 @*@Html.Display((string)item.Date.ToLongDateString())*@
@@ -101,7 +120,7 @@
                             @if (User.IsInRole("Admin"))
                 {
                                 <td>
-                                    @Ajax.ActionLink("Delete", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
+                                    @Ajax.ActionLink("Удалить", "DeleteComment", new { id = item.Id }, new AjaxOptions { UpdateTargetId = "comments" })
                                 </td>
                             }
                         </tr>
@@ -120,7 +139,7 @@
                 @Html.TextArea("CommentUser");
                 <input name="IdProduct" value="@Model.Id" hidden />
                 <br />
-                <input type="submit" value="Отправить" />
+                <input type="submit" value="Отправить" class="button"/>
             }
         </div>
     </div>

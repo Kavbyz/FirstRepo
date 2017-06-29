@@ -31,7 +31,7 @@
             </td>
             <td><p>Общая сумма по товару: </p><label id="@((string)"Price"+@item.Id.ToString())">@(item.CountProduct * item.Product.Price)</label></td>
             <td>
-                @Ajax.ActionLink("Удалить", "DeleteProduct", new { id = @item.Id }, new AjaxOptions { UpdateTargetId = "table" })
+                @Ajax.ActionLink("Удалить", "DeleteProduct", new { id = @item.Id }, new AjaxOptions { UpdateTargetId = "table" }, new { @class = "button" })
             </td>
         </tr>
     }

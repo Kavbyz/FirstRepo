@@ -70,6 +70,17 @@ textarea {
     text-shadow: 0 1px 0 #fafafa;
 }
 
+.content {
+    width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    background-color: #f9f8f5;
+    background: -webkit-linear-gradient(top,#f9f8f5,#f6f3ec);
+    background: -moz-linear-gradient(top,#f9f8f5,#f6f3ec);
+    background: -ms-linear-gradient(top,#f9f8f5,#f6f3ec);
+    background: -o-linear-gradient(top,#f9f8f5,#f6f3ec);
+    background: linear-gradient(top,#f9f8f5,#f6f3ec);
+}
     .button:hover {
         background: #e4e4e4;
         background: -webkit-gradient(linear, 0 0, 0 bottom, from(#e4e4e4), to(#ededed));
