@@ -5,11 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Пользователи</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -30,8 +27,10 @@
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.ActionLink("Details", "Index", "Manage", routeValues: new { UserId = item.Id }, htmlAttributes: null)
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @*@Html.ActionLink("Details", "Index", "Manage", routeValues: new { UserId = item.Id }, htmlAttributes: null)*@
+            @Html.ActionLink("Редактировать", "AddPhoneNumber", "Manage", routeValues: new { UserId = item.Id }, htmlAttributes: null)|
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+            @*@Html.ActionLink("Удалить", "Delete", "Account", new { id = (string)item.Id })*@
         </td>
     </tr>
 }

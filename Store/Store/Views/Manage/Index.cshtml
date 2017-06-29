@@ -9,8 +9,8 @@
     @if (@ViewBag.isAdmin == 1)
     {
     @Html.ActionLink("Рубрики", "Index", "Headings", null, new { @class = "button" })
-    @Html.ActionLink("Список пользователей", "Index", "Account", null, new { @class = "button" })
     @Html.ActionLink("Добавить товар", "Create", "Products", null, new { @class = "button" })
+    @Html.ActionLink("Список пользователей", "Index", "Account", null, new { @class = "button" })
     @Html.ActionLink("Заказы", "Orders", "Orders", null, new { @class = "button" })
     @Html.ActionLink("Мои Заказы", "MyOrders", "Orders", null, new { @class = "button" })
     }
@@ -19,7 +19,7 @@
     @Html.ActionLink("Мои Заказы", "MyOrders", "Orders", null, new { @class = "button" })
     }
 </div>
-
+    
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <hr />

@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿    using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -51,5 +51,7 @@ namespace Store.Models
         }
 
         public System.Data.Entity.DbSet<Store.Models.CartLine> CartLines { get; set; }
+
+        
     }
 }

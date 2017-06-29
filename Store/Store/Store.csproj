@@ -319,6 +319,7 @@
     <Content Include="Views\Orders\Cancel.cshtml" />
     <Content Include="Views\Baskets\NoBasket.cshtml" />
     <Content Include="Views\Account\NotAccess.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

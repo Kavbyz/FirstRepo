@@ -130,6 +130,16 @@ namespace Store.Models
                 userManager.AddToRole(admin.Id, role2.Name);
             }
 
+            var user = new ApplicationUser { Email = "somemail2@mail.ru", UserName = "somemail2@mail.ru" };
+            password = "ad46D_ewr3";
+            result = userManager.Create(user, password);
+
+            if (result.Succeeded)
+            {
+                // добавляем для пользователя роль
+                userManager.AddToRole(user.Id, role2.Name);
+            }
+
             Order order = new Order();
             order.Adress = "123";
             order.Comment = "123";

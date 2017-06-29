@@ -151,7 +151,7 @@ namespace Store.Controllers
                     await db.SaveChangesAsync();
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(product);

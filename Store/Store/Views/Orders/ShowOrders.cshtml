@@ -7,7 +7,7 @@
 
 
 <p>
-    @Html.ActionLink("Create New", "Create",null, new { @class="button"})
+    @Html.ActionLink("Добавить новый", "Create",null, new { @class="button"})
 </p>
 <table class="table">
     <tr>
@@ -74,9 +74,8 @@
         @{if (User.IsInRole("Admin"))
             {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id }) |
                 @if (item.Status != "Отменен" || item.Status != "Доставляется")
                     {
                     @Html.ActionLink("Отменить", "Cancel", new { id = item.Id })
